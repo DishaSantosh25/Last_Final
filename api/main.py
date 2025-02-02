@@ -70,5 +70,5 @@ elif(app_mode=="Disease Recognition"):
         st.write("Our Prediction")
         result_index = model_prediction(test_image)
         #Reading Labels
-        class_name = ["Brown_rust", "Healthy", "Yellow_rust"]
+        class_name = ["Brown_rust", "Healthy", "Loose_Smut","septoria","stripe_rust","Yellow_rust"]
         st.success("Model is Predicting it's a {}".format(class_name[result_index]))
