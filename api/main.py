@@ -125,16 +125,6 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Top bar with "back" arrow
-    st.markdown(
-        """
-        <div class="top-bar">
-            <span class="top-bar-icon">&#8592;</span>
-            <span class="top-bar-text">back</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
     # Header with wheat background & image
     st.markdown(
