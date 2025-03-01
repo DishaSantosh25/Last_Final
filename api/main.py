@@ -4,13 +4,30 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
+# Cache the model so it's loaded only once
+@st.cache(allow_output_mutation=True)
+def load_model():
+    return tf.keras.models.load_model("./wheat.h5")
+
+model = load_model()  # load the model once
+
 # TensorFlow Model Prediction Function
 def model_prediction(test_image):
-    model = tf.keras.models.load_model("./wheat.h5")
-    # Open image using PIL (works with both file-like objects from camera/file uploader)
+    # Open image using PIL (works with file-like objects from camera/file uploader)
     image = Image.open(test_image)
+    # Ensure image is in RGB mode
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+    # Resize image to the model's expected input size
     image = image.resize((128, 128))
     input_arr = np.array(image)
+    # If the image has an alpha channel or is grayscale, adjust it
+    if input_arr.ndim == 2:
+        input_arr = np.stack((input_arr,)*3, axis=-1)
+    elif input_arr.shape[-1] == 4:
+        input_arr = input_arr[..., :3]
+    # Normalize pixel values (assuming the model was trained on normalized data)
+    input_arr = input_arr.astype('float32') / 255.0
     input_arr = np.expand_dims(input_arr, axis=0)  # convert single image to batch format
     predictions = model.predict(input_arr)
     return np.argmax(predictions)  # return index of highest prediction
@@ -61,9 +78,16 @@ def main():
             margin: 16px; 
             overflow: hidden;
         }
+        .header-left-image {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            bottom: 0;
+            width: 200px;
+        }
         .header-text {
             position: absolute; 
-            left: 24px; 
+            left: 240px; 
             top: 50px;
             color: white; 
             font-family: Roboto;
@@ -132,10 +156,11 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Header with wheat background & image
+    # Header with wheat background, left image and right image
     st.markdown(
         """
         <div class="header-container">
+            <img src="file:///C:/Users/Disha%20Santosh/AppData/Local/Microsoft/Windows/INetCache/IE/BK4ONKNU/wheat[1].webp" class="header-left-image"/>
             <div class="header-text">
                 <h1 class="header-title">Wheat Leaf</h1>
                 <h2 class="header-subtitle">Identifier</h2>
@@ -168,7 +193,6 @@ def main():
     st.header("Disease Recognition")
 
     # ----------------------- Camera Input Section -----------------------
-    # The button label uses newline characters to simulate two lines and an icon on the right.
     if st.button("Take picture\nof your plant          📷", key="take_picture_button"):
         st.write("**Take a photo using your webcam or mobile camera**:")
         pic_file = st.camera_input("Capture an image")
