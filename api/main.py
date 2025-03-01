@@ -1,230 +1,89 @@
 import streamlit as st
-import base64
+import tensorflow as tf
+import numpy as np
 
-def main():
-    # Configure page
-    st.set_page_config(page_title="Wheat Leaf Identifier", layout="centered")
+# TensorFlow Model Prediction Function
+def model_prediction(test_image):
+    # Load the model (ensure the model file is in the correct path)
+    model = tf.keras.models.load_model("./wheat.h5")
+    # Load and preprocess the image from the uploaded file
+    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])  # convert single image to batch format
+    predictions = model.predict(input_arr)
+    return np.argmax(predictions)  # return index of highest prediction
 
-    # Inject custom CSS for layout & styling
-    st.markdown(
-        """
-        <style>
-        /* Hide default Streamlit hamburger menu & footer */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
+# Set page configuration (optional)
+st.set_page_config(page_title="Disease Recognition", layout="centered")
 
-        /* Page background color */
-        [data-testid="stAppViewContainer"] {
-            background-color: #FFFFFF;
-        }
+# --- Custom CSS Styling ---
+st.markdown(
+    """
+    <style>
+    /* Overall page background */
+    [data-testid="stAppViewContainer"] {
+        background-color: #f5f5f5;
+    }
+    /* Header styling */
+    .header {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        text-align: center;
+        padding: 20px;
+    }
+    /* Uploader container styling */
+    .uploader {
+        background-color: #ffffff;
+        padding: 20px;
+        border: 2px dashed #ddd;
+        border-radius: 10px;
+        text-align: center;
+        margin: 20px auto;
+        width: 50%;
+    }
+    /* Button styling */
+    .stButton>button {
+        padding: 10px 24px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+    /* Specific button colors */
+    .show-btn {
+        background-color: #2980b9;
+        color: white;
+    }
+    .predict-btn {
+        background-color: #27ae60;
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-        /* Top bar (mimicking AppBar with 'back' arrow) */
-        .top-bar {
-            display: flex; 
-            align-items: center; 
-            padding: 1rem 0; 
-            margin-left: 16px;
-        }
-        .top-bar-icon {
-            color: black; 
-            font-size: 20px; 
-            margin-right: 4px; 
-            cursor: pointer;
-        }
-        .top-bar-text {
-            color: rgba(0,0,0,0.7); 
-            font-size: 16px; 
-            font-family: Roboto;
-            cursor: pointer;
-        }
+# --- Page Content ---
+# Styled header
+st.markdown('<div class="header">Disease Recognition</div>', unsafe_allow_html=True)
 
-        /* Header container (golden wheat background) */
-        .header-container {
-            position: relative; 
-            height: 200px; 
-            background-color: #E5C07B; 
-            border-radius: 24px; 
-            margin: 16px; 
-            overflow: hidden;
-        }
-        .header-text {
-            position: absolute; 
-            left: 24px; 
-            top: 50px;
-            color: white; 
-            font-family: Roboto;
-        }
-        .header-title {
-            font-size: 32px; 
-            font-weight: bold; 
-            margin: 0;
-        }
-        .header-subtitle {
-            font-size: 24px; 
-            margin: 4px 0 0 0;
-        }
-        .header-image {
-            position: absolute; 
-            right: -20px; 
-            top: 0; 
-            bottom: 0; 
-            width: 200px;
-        }
+# Uploader area
+st.markdown('<div class="uploader">', unsafe_allow_html=True)
+test_image = st.file_uploader("Choose an Image:", type=["png", "jpg", "jpeg"])
+st.markdown('</div>', unsafe_allow_html=True)
 
-        /* Centered section for logo & tagline */
-        .center-section {
-            text-align: center; 
-            margin-top: 5px;
-        }
-        .center-section p {
-            font-size: 16px; 
-            color: rgba(0,0,0,0.7); 
-            line-height: 1.5; 
-            font-family: Roboto;
-        }
+# Check if an image is uploaded
+if test_image is not None:
+    # Display "Show Image" button and show the uploaded image when clicked
+    if st.button("Show Image", key="show"):
+        st.image(test_image, use_column_width=True)
 
-        /* Button container styling */
-        .button-container {
-            margin: 16px;
-        }
-        .custom-button {
-            width: 100%; 
-            padding: 16px 20px; 
-            background-color: #98C379; 
-            border: none; 
-            border-radius: 16px; 
-            cursor: pointer; 
-            margin-bottom: 16px;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
-        .button-texts {
-            display: flex; 
-            flex-direction: column;
-        }
-        .button-title {
-            color: white; 
-            font-size: 18px; 
-            font-weight: 600; 
-            font-family: Roboto; 
-            margin: 0;
-        }
-        .button-subtitle {
-            color: rgba(255,255,255,0.8); 
-            font-size: 14px; 
-            font-family: Roboto; 
-            margin: 0;
-        }
-        .button-icon {
-            color: white; 
-            font-size: 24px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Top bar with "back" arrow
-    st.markdown(
-        """
-        <div class="top-bar">
-            <span class="top-bar-icon">&#8592;</span>
-            <span class="top-bar-text">back</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Header with wheat background & image
-    st.markdown(
-        """
-        <div class="header-container">
-            <div class="header-text">
-                <h1 class="header-title">Wheat Leaf</h1>
-                <h2 class="header-subtitle">Identifier</h2>
-            </div>
-            <img src="https://raw.githubusercontent.com/yourrepo/wheat.webp" class="header-image"/>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Logo & tagline
-    col1, col2, col3 = st.columns([3,1,3])
-    with col2:
-        st.image("https://raw.githubusercontent.com/yourrepo/logo.png", width=70)
-
-    st.markdown(
-        """
-        <div class="center-section">
-            <p>Supporting Farmers in<br>Safeguarding their Crop Health</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # You can add extra vertical spacing here if desired
-    st.write("")
-    st.write("")
-    st.write("")
-
-    # Action buttons
-    st.markdown('<div class="button-container">', unsafe_allow_html=True)
-
-    # 1) "Take picture" button -> st.camera_input
-    take_picture = st.button(
-        label="",
-        key="take_picture_button",
-        help="Take picture of your plant",
-    )
-    st.markdown(
-        """
-        <div class="custom-button">
-            <div class="button-texts">
-                <p class="button-title">Take picture</p>
-                <p class="button-subtitle">of your plant</p>
-            </div>
-            <span class="button-icon">&#128247;</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    if take_picture:
-        st.write("**Take a photo using your webcam or mobile camera**:")
-        pic_file = st.camera_input("Capture an image")
-        if pic_file is not None:
-            st.image(pic_file, caption="Captured Image")
-
-    # 2) "Import from gallery" button -> st.file_uploader
-    import_picture = st.button(
-        label="",
-        key="import_button",
-        help="Import from your gallery",
-    )
-    st.markdown(
-        """
-        <div class="custom-button">
-            <div class="button-texts">
-                <p class="button-title">Import</p>
-                <p class="button-subtitle">from your gallery</p>
-            </div>
-            <span class="button-icon">&#128247;</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    if import_picture:
-        st.write("**Select an image from your device**:")
-        uploaded_file = st.file_uploader("Upload Image", type=["png","jpg","jpeg"])
-        if uploaded_file is not None:
-            st.image(uploaded_file, caption="Uploaded Image")
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Here you could add your disease detection logic after receiving the image
-    # e.g., calling a model to predict disease class, then displaying the result.
-
-
-if __name__ == "__main__":
-    main()
+    # Display "Predict" button and run model prediction when clicked
+    if st.button("Predict", key="predict"):
+        st.snow()  # decorative effect
+        st.write("Our Prediction:")
+        result_index = model_prediction(test_image)
+        # Define class names corresponding to model output indices
+        class_name = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+        st.success("Model is predicting it's a {}".format(class_name[result_index]))
+else:
+    st.info("Please upload an image to begin.")
