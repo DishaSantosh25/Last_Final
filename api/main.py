@@ -1,16 +1,11 @@
 import streamlit as st
+import base64
 
 def main():
     # Configure page
     st.set_page_config(page_title="Wheat Leaf Identifier", layout="centered")
 
-    # Initialize session state for button clicks
-    if "take_picture_clicked" not in st.session_state:
-        st.session_state.take_picture_clicked = False
-    if "import_picture_clicked" not in st.session_state:
-        st.session_state.import_picture_clicked = False
-
-    # Custom CSS for layout & styling
+    # Inject custom CSS for layout & styling
     st.markdown(
         """
         <style>
@@ -23,7 +18,7 @@ def main():
             background-color: #FFFFFF;
         }
 
-        /* Top bar */
+        /* Top bar (mimicking AppBar with 'back' arrow) */
         .top-bar {
             display: flex; 
             align-items: center; 
@@ -43,7 +38,7 @@ def main():
             cursor: pointer;
         }
 
-        /* Header container */
+        /* Header container (golden wheat background) */
         .header-container {
             position: relative; 
             height: 200px; 
@@ -76,7 +71,7 @@ def main():
             width: 200px;
         }
 
-        /* Centered section */
+        /* Centered section for logo & tagline */
         .center-section {
             text-align: center; 
             margin-top: 5px;
@@ -88,7 +83,7 @@ def main():
             font-family: Roboto;
         }
 
-        /* Button container */
+        /* Button container styling */
         .button-container {
             margin: 16px;
         }
@@ -130,7 +125,7 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Top bar with back button
+    # Top bar with "back" arrow
     st.markdown(
         """
         <div class="top-bar">
@@ -141,7 +136,7 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Header with wheat background
+    # Header with wheat background & image
     st.markdown(
         """
         <div class="header-container">
@@ -149,13 +144,14 @@ def main():
                 <h1 class="header-title">Wheat Leaf</h1>
                 <h2 class="header-subtitle">Identifier</h2>
             </div>
+            <img src="https://raw.githubusercontent.com/yourrepo/wheat.webp" class="header-image"/>
         </div>
         """,
         unsafe_allow_html=True
     )
 
     # Logo & tagline
-    col1, col2, col3 = st.columns([3, 1, 3])
+    col1, col2, col3 = st.columns([3,1,3])
     with col2:
         st.image("https://raw.githubusercontent.com/yourrepo/logo.png", width=70)
 
@@ -168,30 +164,67 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Buttons
+    # You can add extra vertical spacing here if desired
+    st.write("")
+    st.write("")
+    st.write("")
+
+    # Action buttons
     st.markdown('<div class="button-container">', unsafe_allow_html=True)
 
-    # 1) Take picture button (Click triggers camera input)
-    if st.button("📷 Take Picture of Your Plant"):
-        st.session_state.take_picture_clicked = True
-        st.session_state.import_picture_clicked = False  # Reset gallery click
-
-    if st.session_state.take_picture_clicked:
+    # 1) "Take picture" button -> st.camera_input
+    take_picture = st.button(
+        label="",
+        key="take_picture_button",
+        help="Take picture of your plant",
+    )
+    st.markdown(
+        """
+        <div class="custom-button">
+            <div class="button-texts">
+                <p class="button-title">Take picture</p>
+                <p class="button-subtitle">of your plant</p>
+            </div>
+            <span class="button-icon">&#128247;</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    if take_picture:
+        st.write("**Take a photo using your webcam or mobile camera**:")
         pic_file = st.camera_input("Capture an image")
         if pic_file is not None:
             st.image(pic_file, caption="Captured Image")
 
-    # 2) Import from gallery button (Click triggers file uploader)
-    if st.button("🖼 Import from Gallery"):
-        st.session_state.import_picture_clicked = True
-        st.session_state.take_picture_clicked = False  # Reset camera click
-
-    if st.session_state.import_picture_clicked:
-        uploaded_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
+    # 2) "Import from gallery" button -> st.file_uploader
+    import_picture = st.button(
+        label="",
+        key="import_button",
+        help="Import from your gallery",
+    )
+    st.markdown(
+        """
+        <div class="custom-button">
+            <div class="button-texts">
+                <p class="button-title">Import</p>
+                <p class="button-subtitle">from your gallery</p>
+            </div>
+            <span class="button-icon">&#128247;</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    if import_picture:
+        st.write("**Select an image from your device**:")
+        uploaded_file = st.file_uploader("Upload Image", type=["png","jpg","jpeg"])
         if uploaded_file is not None:
             st.image(uploaded_file, caption="Uploaded Image")
 
     st.markdown('</div>', unsafe_allow_html=True)
+
+    # Here you could add your disease detection logic after receiving the image
+    # e.g., calling a model to predict disease class, then displaying the result.
+
 
 if __name__ == "__main__":
     main()
