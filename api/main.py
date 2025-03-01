@@ -1,11 +1,13 @@
 import streamlit as st
+st.set_page_config(page_title="Wheat Leaf Identifier", layout="centered")  # Must be the first Streamlit command
+
 import base64
 import tensorflow as tf
 import numpy as np
 from PIL import Image
 
-# Cache the model so it's loaded only once
-@st.cache(allow_output_mutation=True)
+# Cache the model using st.cache_resource so it's loaded only once
+@st.cache_resource
 def load_model():
     return tf.keras.models.load_model("./wheat.h5")
 
@@ -33,9 +35,6 @@ def model_prediction(test_image):
     return np.argmax(predictions)  # return index of highest prediction
 
 def main():
-    # Configure page
-    st.set_page_config(page_title="Wheat Leaf Identifier", layout="centered")
-
     # Inject custom CSS for layout & styling including custom button styling for clickable green bars
     st.markdown(
         """
