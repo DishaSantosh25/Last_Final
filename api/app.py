@@ -15,7 +15,7 @@ st.set_page_config(
 # Load and encode the wheat image
 def get_wheat_image():
     try:
-        with open("wheat.jpg", "rb") as f:
+        with open("extracted_wheat.png", "rb") as f:
             data = f.read()
             encoded = base64.b64encode(data).decode()
             return f"data:image/jpeg;base64,{encoded}"
