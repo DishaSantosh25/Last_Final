@@ -36,14 +36,15 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 2rem;
+        padding: 1.8rem 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 120px;
+        min-height: 130px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(245, 192, 107, 0.2);
     }}
     
     /* Banner Content */
@@ -51,39 +52,46 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: 1;
-        max-width: 65%;
-        padding-right: 1rem;
+        max-width: 60%;
+    }}
+    
+    /* Title Container */
+    .title-container {{
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
     }}
     
     .title-text {{
-        color: #2C3333;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        color: #FFFFFF;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }}
     
     .title-text h1 {{
-        font-size: 2.4em;
+        font-size: 2.5em;
         font-weight: 800;
         margin: 0;
-        line-height: 1;
+        line-height: 1.1;
         letter-spacing: -0.02em;
     }}
     
     .title-text h2 {{
         font-size: 1.8em;
         font-weight: 600;
-        margin: 4px 0 0 0;
-        opacity: 0.85;
+        margin: 0;
+        line-height: 1.1;
+        opacity: 0.95;
         letter-spacing: -0.01em;
     }}
     
     /* Wheat Image Container */
     .wheat-image-wrapper {{
         position: relative;
-        width: 35%;
-        height: 140px;
+        width: 40%;
+        height: 130px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         overflow: hidden;
     }}
     
@@ -95,8 +103,8 @@ st.markdown(f"""
         background-size: contain;
         background-position: center right;
         background-repeat: no-repeat;
-        opacity: 0.85;
-        mix-blend-mode: multiply;
+        opacity: 0.8;
+        mix-blend-mode: soft-light;
     }}
     
     /* Disease Result Styling */
@@ -180,19 +188,20 @@ st.markdown(f"""
     @media (max-width: 768px) {{
         .header-banner {{
             padding: 1.5rem;
+            min-height: 110px;
         }}
         .banner-content {{
-            max-width: 60%;
+            max-width: 55%;
         }}
         .wheat-image-wrapper {{
-            width: 40%;
-            height: 100px;
+            width: 45%;
+            height: 110px;
         }}
         .title-text h1 {{
             font-size: 2em;
         }}
         .title-text h2 {{
-            font-size: 1.5em;
+            font-size: 1.4em;
         }}
     }}
 </style>
@@ -216,9 +225,11 @@ def model_prediction(image_data):
 st.markdown("""
     <div class="header-banner">
         <div class="banner-content">
-            <div class="title-text">
-                <h1>Wheat Leaf</h1>
-                <h2>Identifier</h2>
+            <div class="title-container">
+                <div class="title-text">
+                    <h1>Wheat Leaf</h1>
+                    <h2>Identifier</h2>
+                </div>
             </div>
         </div>
         <div class="wheat-image-wrapper">
