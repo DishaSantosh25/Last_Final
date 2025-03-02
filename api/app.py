@@ -61,7 +61,7 @@ st.markdown("""
         filter: contrast(1.2) brightness(1.8);
     }
     
-    /* Banner Content - Adjusted for Smaller Height */
+    /* Banner Content */
     .banner-content {
         position: relative;
         z-index: 2;
@@ -93,43 +93,35 @@ st.markdown("""
     /* Result Display Styling */
     .result-container {
         margin: 1.5rem 0;
-        padding: 1.5rem;
+        padding: 1.2rem;
         border-radius: 12px;
-        background: #F8F9FA;
+        background: #FFFFFF;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     
     /* Disease Result Styling */
-    .stSuccess, .stWarning {
-        background-color: transparent !important;
-        padding: 1rem !important;
-        border-radius: 8px !important;
-        margin: 0.5rem 0 !important;
-    }
-    
     .disease-result {
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 0.5rem 0;
+        padding: 1.2rem;
+        border-radius: 10px;
+        margin: 0;
         font-weight: 600;
-        font-size: 1.2em;
+        font-size: 1.3em;
+        text-align: center;
+        transition: all 0.3s ease;
     }
     
     .disease-warning {
-        background-color: rgba(255, 218, 121, 0.3);
-        border: 1px solid rgba(255, 170, 0, 0.3);
+        background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 100%);
+        color: #B8860B;
+        border: 1px solid rgba(218, 165, 32, 0.3);
+        box-shadow: 0 2px 12px rgba(218, 165, 32, 0.15);
     }
     
     .disease-healthy {
-        background-color: rgba(146, 199, 86, 0.2);
-        border: 1px solid rgba(146, 199, 86, 0.3);
-    }
-    
-    .recommendation {
-        background-color: rgba(100, 149, 237, 0.1);
-        border: 1px solid rgba(100, 149, 237, 0.2);
-        padding: 1rem;
-        border-radius: 8px;
-        margin-top: 0.5rem;
+        background: linear-gradient(135deg, #E6FFE6 0%, #98FB98 100%);
+        color: #228B22;
+        border: 1px solid rgba(34, 139, 34, 0.3);
+        box-shadow: 0 2px 12px rgba(34, 139, 34, 0.15);
     }
     
     /* Button Styling */
@@ -142,11 +134,14 @@ st.markdown("""
         border: none !important;
         width: 100% !important;
         margin: 8px 0 !important;
+        transition: all 0.3s ease !important;
     }
     
     .stButton > button:hover {
         background-color: #7DAD48 !important;
         border: none !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(146, 199, 86, 0.2) !important;
     }
     
     /* Center Section */
@@ -286,10 +281,6 @@ with col2:
                             f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
                             unsafe_allow_html=True
                         )
-                        st.markdown(
-                            '<div class="recommendation">💡 Recommendation: Consult with an agricultural expert for treatment options.</div>',
-                            unsafe_allow_html=True
-                        )
                     
                     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -314,10 +305,6 @@ with col2:
                     else:
                         st.markdown(
                             f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
-                            unsafe_allow_html=True
-                        )
-                        st.markdown(
-                            '<div class="recommendation">💡 Recommendation: Consult with an agricultural expert for treatment options.</div>',
                             unsafe_allow_html=True
                         )
                     
