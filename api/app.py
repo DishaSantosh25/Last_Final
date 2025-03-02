@@ -43,8 +43,9 @@ st.markdown("""
         transform: translateY(-50%);
         width: 120px;
         height: 120px;
-        opacity: 0.3;
-        mix-blend-mode: overlay;
+        opacity: 0.6;
+        mix-blend-mode: soft-light;
+        object-fit: cover;
     }
     
     /* Banner Content */
@@ -136,9 +137,9 @@ def model_prediction(image_data):
     return np.argmax(predictions)
 
 # Header Banner with Wheat Image
-st.markdown(f"""
+st.markdown("""
     <div class="header-banner">
-        <img src="{WHEAT_IMAGE}" class="wheat-image" alt="Wheat"/>
+        <img src="wheat.jpg" class="wheat-image" alt="Wheat"/>
         <div class="banner-content">
             <div class="title-text">
                 <h1>Wheat Leaf</h1>
