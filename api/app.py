@@ -36,11 +36,11 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.5rem 2rem;
+        padding: 1.8rem 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        height: 130px;
+        height: 160px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -92,7 +92,7 @@ st.markdown(f"""
     .wheat-image-wrapper {{
         position: relative;
         width: 48%;
-        height: 130px;
+        height: 160px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -104,8 +104,8 @@ st.markdown(f"""
         right: 0;
         top: 50%;
         transform: translateY(-50%);
-        width: 180px;
-        height: 130px;
+        width: 220px;
+        height: 160px;
         background-image: url('{wheat_image if wheat_image else ""}');
         background-size: contain;
         background-position: center right;
@@ -194,7 +194,7 @@ st.markdown(f"""
     @media (max-width: 768px) {{
         .header-banner {{
             padding: 1.2rem 1.5rem;
-            height: 110px;
+            height: 130px;
         }}
         .banner-content {{
             max-width: 48%;
@@ -205,12 +205,12 @@ st.markdown(f"""
         }}
         .wheat-image-wrapper {{
             width: 52%;
-            height: 110px;
+            height: 130px;
             padding-right: 0;
         }}
         .wheat-image {{
-            width: 140px;
-            height: 100px;
+            width: 180px;
+            height: 130px;
         }}
         .title-text h1 {{
             font-size: 1.9em;
