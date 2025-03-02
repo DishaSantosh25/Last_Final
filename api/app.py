@@ -35,56 +35,33 @@ st.markdown(f"""
     
     /* Header Banner */
     .header-banner {{
-        background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
+        background: linear-gradient(135deg, #FFEFD5 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.5rem;
+        padding: 1.8rem 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 120px;
+        min-height: 110px;
         display: flex;
         align-items: center;
-    }}
-    
-    /* Wheat Image Container and Styling */
-    .wheat-image-container {{
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 140px;
-        overflow: hidden;
-    }}
-    
-    .wheat-image-container::before {{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.4;
-        mix-blend-mode: multiply;
+        justify-content: space-between;
     }}
     
     /* Banner Content */
     .banner-content {{
         position: relative;
         z-index: 2;
-        margin-left: 120px;
         flex: 1;
+        padding-right: 120px;
     }}
     
     .title-text {{
-        color: #FFFFFF;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        color: #2C3333;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }}
     
     .title-text h1 {{
-        font-size: 2.2em;
+        font-size: 2.4em;
         font-weight: 800;
         margin: 0;
         line-height: 1;
@@ -92,11 +69,39 @@ st.markdown(f"""
     }}
     
     .title-text h2 {{
-        font-size: 1.6em;
+        font-size: 1.8em;
         font-weight: 600;
-        margin: 2px 0 0 0;
-        opacity: 0.95;
+        margin: 4px 0 0 0;
+        opacity: 0.85;
         letter-spacing: -0.01em;
+    }}
+    
+    /* Wheat Image Container */
+    .wheat-image-container {{
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 130px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }}
+    
+    .wheat-image-container::before {{
+        content: '';
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 140px;
+        height: 140px;
+        background-image: url('{wheat_image if wheat_image else ""}');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.7;
+        mix-blend-mode: multiply;
     }}
     
     /* Disease Result Styling */
@@ -178,17 +183,24 @@ st.markdown(f"""
     
     /* Responsive adjustments */
     @media (max-width: 768px) {{
+        .header-banner {{
+            padding: 1.5rem;
+        }}
+        .banner-content {{
+            padding-right: 90px;
+        }}
         .wheat-image-container {{
             width: 100px;
         }}
-        .banner-content {{
-            margin-left: 90px;
+        .wheat-image-container::before {{
+            width: 110px;
+            height: 110px;
         }}
         .title-text h1 {{
-            font-size: 1.8em;
+            font-size: 2em;
         }}
         .title-text h2 {{
-            font-size: 1.4em;
+            font-size: 1.5em;
         }}
     }}
 </style>
@@ -211,13 +223,13 @@ def model_prediction(image_data):
 # Header Banner with Wheat Image
 st.markdown("""
     <div class="header-banner">
-        <div class="wheat-image-container"></div>
         <div class="banner-content">
             <div class="title-text">
                 <h1>Wheat Leaf</h1>
-                <h2>Identifier</h2>
+                <h4>Identifier</h4>
             </div>
         </div>
+        <div class="wheat-image-container"></div>
     </div>
 """, unsafe_allow_html=True)
 
