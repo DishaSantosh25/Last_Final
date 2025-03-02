@@ -29,49 +29,65 @@ st.markdown("""
     .header-banner {
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 20px;
-        padding: 2rem;
+        padding: 2.5rem 2rem;
         margin-bottom: 2rem;
         position: relative;
         overflow: hidden;
+        min-height: 160px;
+        display: flex;
+        align-items: center;
     }
     
-    /* Wheat Image Styling */
-    .wheat-image {
+    /* Wheat Image Container and Styling */
+    .wheat-image-container {
         position: absolute;
         left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 120px;
-        height: 120px;
-        opacity: 0.6;
-        mix-blend-mode: soft-light;
+        top: 0;
+        bottom: 0;
+        width: 35%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .wheat-image {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        transform: scale(1.2);
+        filter: contrast(1.2) brightness(1.8);
     }
     
     /* Banner Content */
     .banner-content {
         position: relative;
-        z-index: 1;
-        margin-left: 100px;
+        z-index: 2;
+        margin-left: 28%;
+        width: 72%;
     }
     
     .title-text {
         color: #FFFFFF;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
     
     .title-text h1 {
-        font-size: 2.5em;
+        font-size: 2.8em;
         font-weight: 800;
         margin: 0;
         line-height: 1.1;
+        letter-spacing: -0.02em;
     }
     
     .title-text h2 {
-        font-size: 1.8em;
+        font-size: 2em;
         font-weight: 600;
-        margin: 0;
-        opacity: 0.9;
+        margin: 4px 0 0 0;
+        opacity: 0.95;
+        letter-spacing: -0.01em;
     }
     
     /* Button Styling */
@@ -119,6 +135,31 @@ st.markdown("""
     [data-testid="stFileUploadDropzone"] {
         display: none;
     }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .header-banner {
+            padding: 2rem 1.5rem;
+            min-height: 140px;
+        }
+        
+        .wheat-image-container {
+            width: 30%;
+        }
+        
+        .banner-content {
+            margin-left: 25%;
+            width: 75%;
+        }
+        
+        .title-text h1 {
+            font-size: 2.2em;
+        }
+        
+        .title-text h2 {
+            font-size: 1.6em;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -139,7 +180,9 @@ def model_prediction(image_data):
 # Header Banner with Wheat Image
 st.markdown("""
     <div class="header-banner">
-        <img src="wheat.jpg" class="wheat-image" alt="Wheat"/>
+        <div class="wheat-image-container">
+            <img src="wheat.jpg" class="wheat-image" alt="Wheat"/>
+        </div>
         <div class="banner-content">
             <div class="title-text">
                 <h1>Wheat Leaf</h1>
