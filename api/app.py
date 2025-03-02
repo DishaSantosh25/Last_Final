@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 import io
+import base64
 
 # Page configuration
 st.set_page_config(
@@ -10,6 +11,11 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed"
 )
+
+# Base64 encoded wheat image
+WHEAT_IMAGE = """
+data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMSAxNS45M0M3LjA1IDE3LjQzIDQgMTQuOTcgNCAxMmMwLTQuNDIgMy41OC04IDgtOHM4IDMuNTggOCA4YzAgMi45Ny0zLjA1IDUuNDMtNyA1Ljkzdi0xMS45YzAtLjU1LS40NS0xLTEtMXMtMSAuNDUtMSAxdjExLjl6IiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPjwvc3ZnPg==
+"""
 
 # Custom CSS
 st.markdown("""
@@ -29,10 +35,23 @@ st.markdown("""
         overflow: hidden;
     }
     
+    /* Wheat Image Styling */
+    .wheat-image {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 120px;
+        height: 120px;
+        opacity: 0.3;
+        mix-blend-mode: overlay;
+    }
+    
+    /* Banner Content */
     .banner-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        position: relative;
+        z-index: 1;
+        margin-left: 100px;
     }
     
     .title-text {
@@ -52,6 +71,23 @@ st.markdown("""
         font-weight: 600;
         margin: 0;
         opacity: 0.9;
+    }
+    
+    /* Button Styling */
+    .stButton > button {
+        background-color: #92C756 !important;
+        color: white !important;
+        font-size: 16px !important;
+        padding: 16px 24px !important;
+        border-radius: 12px !important;
+        border: none !important;
+        width: 100% !important;
+        margin: 8px 0 !important;
+    }
+    
+    .stButton > button:hover {
+        background-color: #7DAD48 !important;
+        border: none !important;
     }
     
     /* Center Section */
@@ -74,44 +110,13 @@ st.markdown("""
         font-weight: 500;
     }
     
-    /* Hide default Streamlit elements */
+    /* Hide default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
     /* Hide default file uploader */
     [data-testid="stFileUploadDropzone"] {
         display: none;
-    }
-    
-    /* Custom button styling */
-    .stButton > button {
-        background-color: #92C756 !important;
-        color: white !important;
-        font-size: 16px !important;
-        padding: 16px 24px !important;
-        border-radius: 12px !important;
-        border: none !important;
-        width: 100% !important;
-        margin: 8px 0 !important;
-    }
-    
-    .stButton > button:hover {
-        background-color: #7DAD48 !important;
-        border: none !important;
-    }
-    
-    /* Image display styling */
-    [data-testid="stImage"] img {
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    /* Container for buttons */
-    .button-container {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        margin: 1rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -130,24 +135,24 @@ def model_prediction(image_data):
     predictions = model.predict(input_arr)
     return np.argmax(predictions)
 
-# Header Banner
-st.markdown("""
-    <div style="background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%); padding: 20px; border-radius: 20px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1 style="color: white; margin: 0; font-size: 2.5em; font-weight: 800;">Wheat Leaf</h1>
-                <h2 style="color: white; margin: 0; font-size: 1.8em; font-weight: 600; opacity: 0.9;">Identifier</h2>
+# Header Banner with Wheat Image
+st.markdown(f"""
+    <div class="header-banner">
+        <img src="{WHEAT_IMAGE}" class="wheat-image" alt="Wheat"/>
+        <div class="banner-content">
+            <div class="title-text">
+                <h1>Wheat Leaf</h1>
+                <h2>Identifier</h2>
             </div>
-            <div style="font-size: 2.5em;">🌾</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
 # Center Section
 st.markdown("""
-    <div style="text-align: center; margin: 20px 0;">
-        <div style="font-size: 2.5em; color: #92C756; margin-bottom: 10px;">🌿</div>
-        <div style="font-size: 1.2em; color: #4A4A4A; line-height: 1.5;">
+    <div class="center-section">
+        <div class="leaf-icon">🌿</div>
+        <div class="subtitle">
             Supporting Farmers in Safeguarding their Crop Health
         </div>
     </div>
