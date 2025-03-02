@@ -25,15 +25,15 @@ st.markdown("""
         background-color: #FFFFFF;
     }
     
-    /* Header Banner */
+    /* Header Banner - Reduced Height */
     .header-banner {
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
-        border-radius: 20px;
-        padding: 2.5rem 2rem;
-        margin-bottom: 2rem;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 160px;
+        min-height: 120px;
         display: flex;
         align-items: center;
     }
@@ -44,7 +44,7 @@ st.markdown("""
         left: 0;
         top: 0;
         bottom: 0;
-        width: 35%;
+        width: 30%;
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -61,12 +61,12 @@ st.markdown("""
         filter: contrast(1.2) brightness(1.8);
     }
     
-    /* Banner Content */
+    /* Banner Content - Adjusted for Smaller Height */
     .banner-content {
         position: relative;
         z-index: 2;
-        margin-left: 28%;
-        width: 72%;
+        margin-left: 25%;
+        width: 75%;
     }
     
     .title-text {
@@ -75,19 +75,61 @@ st.markdown("""
     }
     
     .title-text h1 {
-        font-size: 2.8em;
+        font-size: 2.2em;
         font-weight: 800;
         margin: 0;
-        line-height: 1.1;
+        line-height: 1;
         letter-spacing: -0.02em;
     }
     
     .title-text h2 {
-        font-size: 2em;
+        font-size: 1.6em;
         font-weight: 600;
-        margin: 4px 0 0 0;
+        margin: 2px 0 0 0;
         opacity: 0.95;
         letter-spacing: -0.01em;
+    }
+    
+    /* Result Display Styling */
+    .result-container {
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: #F8F9FA;
+    }
+    
+    /* Disease Result Styling */
+    .stSuccess, .stWarning {
+        background-color: transparent !important;
+        padding: 1rem !important;
+        border-radius: 8px !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    .disease-result {
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        font-weight: 600;
+        font-size: 1.2em;
+    }
+    
+    .disease-warning {
+        background-color: rgba(255, 218, 121, 0.3);
+        border: 1px solid rgba(255, 170, 0, 0.3);
+    }
+    
+    .disease-healthy {
+        background-color: rgba(146, 199, 86, 0.2);
+        border: 1px solid rgba(146, 199, 86, 0.3);
+    }
+    
+    .recommendation {
+        background-color: rgba(100, 149, 237, 0.1);
+        border: 1px solid rgba(100, 149, 237, 0.2);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
     }
     
     /* Button Styling */
@@ -110,18 +152,18 @@ st.markdown("""
     /* Center Section */
     .center-section {
         text-align: center;
-        padding: 1rem 0 2rem 0;
+        padding: 0.5rem 0 1.5rem 0;
     }
     
     .leaf-icon {
         color: #92C756;
-        font-size: 2.5em;
-        margin-bottom: 1rem;
+        font-size: 2.2em;
+        margin-bottom: 0.5rem;
     }
     
     .subtitle {
         color: #4A4A4A;
-        font-size: 1.2em;
+        font-size: 1.1em;
         line-height: 1.5;
         margin: 0.5rem 0;
         font-weight: 500;
@@ -230,12 +272,26 @@ with col2:
                     st.snow()
                     result_index = model_prediction(camera_input)
                     class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                    
+                    st.markdown('<div class="result-container">', unsafe_allow_html=True)
+                    
                     if class_names[result_index] == "Healthy":
-                        st.success("✨ Your wheat plant is healthy!")
+                        st.markdown(
+                            f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
+                            unsafe_allow_html=True
+                        )
                         st.balloons()
                     else:
-                        st.warning(f"⚠️ Disease Detected: {class_names[result_index]}")
-                        st.info("💡 Recommendation: Consult with an agricultural expert for treatment options.")
+                        st.markdown(
+                            f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
+                            unsafe_allow_html=True
+                        )
+                        st.markdown(
+                            '<div class="recommendation">💡 Recommendation: Consult with an agricultural expert for treatment options.</div>',
+                            unsafe_allow_html=True
+                        )
+                    
+                    st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.current_view == 'gallery':
         uploaded_file = st.file_uploader("", type=['png', 'jpg', 'jpeg'])
@@ -246,9 +302,23 @@ with col2:
                     st.snow()
                     result_index = model_prediction(uploaded_file)
                     class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                    
+                    st.markdown('<div class="result-container">', unsafe_allow_html=True)
+                    
                     if class_names[result_index] == "Healthy":
-                        st.success("✨ Your wheat plant is healthy!")
+                        st.markdown(
+                            f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
+                            unsafe_allow_html=True
+                        )
                         st.balloons()
                     else:
-                        st.warning(f"⚠️ Disease Detected: {class_names[result_index]}")
-                        st.info("💡 Recommendation: Consult with an agricultural expert for treatment options.") 
+                        st.markdown(
+                            f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
+                            unsafe_allow_html=True
+                        )
+                        st.markdown(
+                            '<div class="recommendation">💡 Recommendation: Consult with an agricultural expert for treatment options.</div>',
+                            unsafe_allow_html=True
+                        )
+                    
+                    st.markdown('</div>', unsafe_allow_html=True) 
