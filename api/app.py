@@ -20,7 +20,6 @@ def get_wheat_image():
             encoded = base64.b64encode(data).decode()
             return f"data:image/jpeg;base64,{encoded}"
     except:
-        # Fallback to a default wheat emoji if image is not found
         return None
 
 wheat_image = get_wheat_image()
@@ -35,13 +34,13 @@ st.markdown(f"""
     
     /* Header Banner */
     .header-banner {{
-        background: linear-gradient(135deg, #FFEFD5 0%, #F9D69B 100%);
+        background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.8rem 2rem;
+        padding: 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 110px;
+        min-height: 120px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -52,7 +51,8 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: 1;
-        padding-right: 120px;
+        max-width: 65%;
+        padding-right: 1rem;
     }}
     
     .title-text {{
@@ -77,30 +77,25 @@ st.markdown(f"""
     }}
     
     /* Wheat Image Container */
-    .wheat-image-container {{
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 130px;
-        overflow: hidden;
+    .wheat-image-wrapper {{
+        position: relative;
+        width: 35%;
+        height: 140px;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
     }}
     
-    .wheat-image-container::before {{
-        content: '';
-        position: absolute;
-        right: -10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 140px;
-        height: 140px;
+    .wheat-image {{
+        position: relative;
+        width: 100%;
+        height: 100%;
         background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.7;
+        background-size: contain;
+        background-position: center right;
+        background-repeat: no-repeat;
+        opacity: 0.85;
         mix-blend-mode: multiply;
     }}
     
@@ -187,14 +182,11 @@ st.markdown(f"""
             padding: 1.5rem;
         }}
         .banner-content {{
-            padding-right: 90px;
+            max-width: 60%;
         }}
-        .wheat-image-container {{
-            width: 100px;
-        }}
-        .wheat-image-container::before {{
-            width: 110px;
-            height: 110px;
+        .wheat-image-wrapper {{
+            width: 40%;
+            height: 100px;
         }}
         .title-text h1 {{
             font-size: 2em;
@@ -226,10 +218,12 @@ st.markdown("""
         <div class="banner-content">
             <div class="title-text">
                 <h1>Wheat Leaf</h1>
-                <h4>Identifier</h4>
+                <h2>Identifier</h2>
             </div>
         </div>
-        <div class="wheat-image-container"></div>
+        <div class="wheat-image-wrapper">
+            <div class="wheat-image"></div>
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -312,4 +306,5 @@ with col2:
                             unsafe_allow_html=True
                         )
                     
+                    st.markdown('</div>', unsafe_allow_html=True) 
                     st.markdown('</div>', unsafe_allow_html=True) 
