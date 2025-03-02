@@ -44,11 +44,11 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.5rem;
+        padding: 1.2rem 1.5rem;
         margin-bottom: 1.5rem;
         position: relative;
-        overflow: hidden;
-        min-height: 130px;
+        overflow: visible;
+        min-height: 120px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -60,7 +60,7 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: 1;
-        max-width: 55%;
+        max-width: 52%;
         padding-left: 0.5rem;
         display: flex;
         flex-direction: column;
@@ -71,19 +71,19 @@ st.markdown(f"""
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 0;
     }}
     
     .title-text {{
         color: #FFFFFF;
         text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        line-height: 0.9;
     }}
     
     .title-text h1 {{
         font-size: 2.2em;
         font-weight: 800;
-        margin: 0;
-        line-height: 1;
+        margin: 0 0 2px 0;
         letter-spacing: -0.01em;
         white-space: nowrap;
         overflow: hidden;
@@ -94,34 +94,40 @@ st.markdown(f"""
         font-size: 1.6em;
         font-weight: 600;
         margin: 0;
-        line-height: 1;
         letter-spacing: 0;
         opacity: 0.95;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }}
     
     /* Wheat Image Container */
     .wheat-image-wrapper {{
-        position: relative;
-        width: 45%;
-        height: 130px;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48%;
+        height: 140%;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        overflow: hidden;
+        overflow: visible;
     }}
     
     .wheat-image {{
         position: absolute;
-        right: 0;
-        height: 140%;
-        width: 160px;
+        right: -10px;
+        height: 150%;
+        width: 180px;
         background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: 160px auto;
+        background-size: contain;
         background-position: center right;
         background-repeat: no-repeat;
         transform-origin: right center;
+        transform: translateY(-25%);
         image-rendering: -webkit-optimize-contrast;
-        opacity: 1;
+        opacity: 0.95;
     }}
     
     /* Disease Result Styling */
@@ -204,56 +210,58 @@ st.markdown(f"""
     /* Responsive adjustments */
     @media (max-width: 768px) {{
         .header-banner {{
-            padding: 1.2rem;
+            padding: 1rem 1.2rem;
             min-height: 110px;
-        }}
-        .banner-content {{
-            max-width: 52%;
-            padding-left: 0.3rem;
-        }}
-        .title-container {{
-            gap: 2px;
-        }}
-        .title-text h1 {{
-            font-size: 1.8em;
-        }}
-        .title-text h2 {{
-            font-size: 1.3em;
-        }}
-        .wheat-image-wrapper {{
-            width: 48%;
-            height: 110px;
-        }}
-        .wheat-image {{
-            width: 140px;
-            height: 130%;
-            background-size: 140px auto;
-        }}
-    }}
-
-    @media (max-width: 480px) {{
-        .header-banner {{
-            padding: 1rem 0.8rem;
-            min-height: 100px;
         }}
         .banner-content {{
             max-width: 50%;
             padding-left: 0.2rem;
         }}
+        .title-text {{
+            line-height: 0.85;
+        }}
+        .title-text h1 {{
+            font-size: 1.8em;
+            margin: 0 0 1px 0;
+        }}
+        .title-text h2 {{
+            font-size: 1.3em;
+        }}
+        .wheat-image-wrapper {{
+            width: 50%;
+            height: 135%;
+        }}
+        .wheat-image {{
+            width: 160px;
+            height: 140%;
+            right: -8px;
+        }}
+    }}
+
+    @media (max-width: 480px) {{
+        .header-banner {{
+            padding: 0.8rem 1rem;
+            min-height: 100px;
+        }}
+        .banner-content {{
+            max-width: 48%;
+            padding-left: 0.1rem;
+        }}
         .title-text h1 {{
             font-size: 1.5em;
+            margin: 0 0 1px 0;
         }}
         .title-text h2 {{
             font-size: 1.1em;
         }}
         .wheat-image-wrapper {{
-            width: 50%;
-            height: 100px;
+            width: 52%;
+            height: 130%;
         }}
         .wheat-image {{
-            width: 120px;
-            height: 120%;
-            background-size: 120px auto;
+            width: 140px;
+            height: 130%;
+            right: -6px;
         }}
     }}
 </style>
