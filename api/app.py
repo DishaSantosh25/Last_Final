@@ -18,7 +18,7 @@ def get_wheat_image():
         with open("extracted_wheat.png", "rb") as f:
             data = f.read()
             encoded = base64.b64encode(data).decode()
-            return f"data:image/jpeg;base64,{encoded}"
+            return f"data:image/png;base64,{encoded}"
     except:
         return None
 
@@ -97,22 +97,20 @@ st.markdown(f"""
         align-items: center;
         justify-content: flex-end;
         overflow: hidden;
-        padding-right: 0.5rem;
     }}
     
     .wheat-image {{
         position: absolute;
-        right: 0.5rem;
-        height: 125%;
-        width: auto;
-        max-width: none;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 180px;
+        height: 130px;
         background-image: url('{wheat_image if wheat_image else ""}');
         background-size: contain;
         background-position: center right;
         background-repeat: no-repeat;
-        transform-origin: right center;
         image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
     }}
     
     /* Disease Result Styling */
@@ -211,8 +209,8 @@ st.markdown(f"""
             padding-right: 0;
         }}
         .wheat-image {{
-            right: 0;
-            height: 115%;
+            width: 140px;
+            height: 100px;
         }}
         .title-text h1 {{
             font-size: 1.9em;
