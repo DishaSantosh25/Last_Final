@@ -44,11 +44,11 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.8rem;
+        padding: 1.5rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 140px;
+        min-height: 130px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -60,8 +60,8 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: 1;
-        max-width: 58%;
-        padding-left: 1rem;
+        max-width: 55%;
+        padding-left: 0.5rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -71,7 +71,7 @@ st.markdown(f"""
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 4px;
     }}
     
     .title-text {{
@@ -80,18 +80,21 @@ st.markdown(f"""
     }}
     
     .title-text h1 {{
-        font-size: 2.4em;
+        font-size: 2.2em;
         font-weight: 800;
         margin: 0;
-        line-height: 1.1;
+        line-height: 1;
         letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }}
     
     .title-text h2 {{
-        font-size: 1.7em;
+        font-size: 1.6em;
         font-weight: 600;
-        margin: -2px 0 0 0;
-        line-height: 1.1;
+        margin: 0;
+        line-height: 1;
         letter-spacing: 0;
         opacity: 0.95;
     }}
@@ -99,27 +102,26 @@ st.markdown(f"""
     /* Wheat Image Container */
     .wheat-image-wrapper {{
         position: relative;
-        width: 42%;
-        height: 140px;
+        width: 45%;
+        height: 130px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         overflow: hidden;
-        padding-right: 1rem;
     }}
     
     .wheat-image {{
         position: absolute;
-        right: 1rem;
-        height: 135%;
-        width: 180px;
+        right: 0;
+        height: 140%;
+        width: 160px;
         background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: cover;
+        background-size: 160px auto;
         background-position: center right;
         background-repeat: no-repeat;
         transform-origin: right center;
         image-rendering: -webkit-optimize-contrast;
-        opacity: 0.9;
+        opacity: 1;
     }}
     
     /* Disease Result Styling */
@@ -202,43 +204,41 @@ st.markdown(f"""
     /* Responsive adjustments */
     @media (max-width: 768px) {{
         .header-banner {{
-            padding: 1.5rem;
-            min-height: 120px;
+            padding: 1.2rem;
+            min-height: 110px;
         }}
         .banner-content {{
-            max-width: 55%;
-            padding-left: 0.5rem;
+            max-width: 52%;
+            padding-left: 0.3rem;
         }}
         .title-container {{
-            gap: 0;
+            gap: 2px;
         }}
         .title-text h1 {{
             font-size: 1.8em;
-            line-height: 1;
         }}
         .title-text h2 {{
             font-size: 1.3em;
-            margin-top: -1px;
         }}
         .wheat-image-wrapper {{
-            width: 45%;
-            height: 120px;
-            padding-right: 0.5rem;
+            width: 48%;
+            height: 110px;
         }}
         .wheat-image {{
-            right: 0.5rem;
-            height: 125%;
+            width: 140px;
+            height: 130%;
+            background-size: 140px auto;
         }}
     }}
 
     @media (max-width: 480px) {{
         .header-banner {{
-            padding: 1.2rem;
+            padding: 1rem 0.8rem;
             min-height: 100px;
         }}
         .banner-content {{
-            max-width: 52%;
-            padding-left: 0.3rem;
+            max-width: 50%;
+            padding-left: 0.2rem;
         }}
         .title-text h1 {{
             font-size: 1.5em;
@@ -247,11 +247,13 @@ st.markdown(f"""
             font-size: 1.1em;
         }}
         .wheat-image-wrapper {{
-            width: 48%;
+            width: 50%;
             height: 100px;
         }}
         .wheat-image {{
+            width: 120px;
             height: 120%;
+            background-size: 120px auto;
         }}
     }}
 </style>
@@ -283,7 +285,7 @@ st.markdown("""
             </div>
         </div>
         <div class="wheat-image-wrapper">
-            <div class="wheat-image"></div>
+            <div class="wheat-image" role="img" aria-label="Decorative wheat image"></div>
         </div>
     </div>
 """, unsafe_allow_html=True)
