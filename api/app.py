@@ -36,11 +36,11 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.8rem 2rem;
+        padding: 1.5rem 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: hidden;
-        min-height: 130px;
+        min-height: 120px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -52,47 +52,50 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: 1;
-        max-width: 60%;
+        max-width: 55%;
+        display: flex;
+        align-items: flex-start;
     }}
     
     /* Title Container */
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: 0;
     }}
     
     .title-text {{
-        color: #FFFFFF;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        color: #2C3333;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }}
     
     .title-text h1 {{
         font-size: 2.5em;
         font-weight: 800;
         margin: 0;
-        line-height: 1.1;
+        line-height: 1;
         letter-spacing: -0.02em;
     }}
     
     .title-text h2 {{
         font-size: 1.8em;
         font-weight: 600;
-        margin: 0;
-        line-height: 1.1;
-        opacity: 0.95;
+        margin: -2px 0 0 0;
+        line-height: 1;
+        opacity: 0.9;
         letter-spacing: -0.01em;
     }}
     
     /* Wheat Image Container */
     .wheat-image-wrapper {{
         position: relative;
-        width: 40%;
-        height: 130px;
+        width: 45%;
+        height: 120px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         overflow: hidden;
+        margin-right: -1rem;
     }}
     
     .wheat-image {{
@@ -100,11 +103,11 @@ st.markdown(f"""
         width: 100%;
         height: 100%;
         background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: contain;
-        background-position: center right;
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.8;
-        mix-blend-mode: soft-light;
+        transform: scale(1.2);
+        transform-origin: right center;
     }}
     
     /* Disease Result Styling */
@@ -187,21 +190,23 @@ st.markdown(f"""
     /* Responsive adjustments */
     @media (max-width: 768px) {{
         .header-banner {{
-            padding: 1.5rem;
-            min-height: 110px;
+            padding: 1.2rem 1.5rem;
+            min-height: 100px;
         }}
         .banner-content {{
-            max-width: 55%;
+            max-width: 50%;
         }}
         .wheat-image-wrapper {{
-            width: 45%;
-            height: 110px;
+            width: 50%;
+            height: 100px;
+            margin-right: -0.5rem;
         }}
         .title-text h1 {{
             font-size: 2em;
         }}
         .title-text h2 {{
             font-size: 1.4em;
+            margin-top: -1px;
         }}
     }}
 </style>
