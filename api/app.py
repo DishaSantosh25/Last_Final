@@ -4,139 +4,202 @@ import numpy as np
 from PIL import Image
 import io
 
-# Custom CSS for styling
+# Page configuration
+st.set_page_config(
+    page_title="Wheat Leaf Identifier",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+# Custom CSS
 st.markdown("""
 <style>
-    /* Header Card Styling */
-    .header-card {
-        background-color: #F9D69B;
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .header-text {
-        color: #2C3333;
-    }
-    .header-text h1 {
-        font-size: 2.5em;
-        margin: 0;
-        font-weight: bold;
+    /* Global Styles */
+    [data-testid="stAppViewContainer"] {
+        background-color: #FFFFFF;
     }
     
-    /* Center Section Styling */
+    /* Header Banner */
+    .header-banner {
+        background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .banner-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .title-text {
+        color: #FFFFFF;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .title-text h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+        margin: 0;
+        line-height: 1.1;
+    }
+    
+    .title-text h2 {
+        font-size: 1.8em;
+        font-weight: 600;
+        margin: 0;
+        opacity: 0.9;
+    }
+    
+    /* Center Section */
     .center-section {
         text-align: center;
-        margin: 30px 0;
+        padding: 1rem 0 2rem 0;
     }
+    
+    .leaf-icon {
+        color: #92C756;
+        font-size: 2.5em;
+        margin-bottom: 1rem;
+    }
+    
     .subtitle {
+        color: #4A4A4A;
         font-size: 1.2em;
-        color: #2C3333;
-        margin: 15px 0;
+        line-height: 1.5;
+        margin: 0.5rem 0;
+        font-weight: 500;
     }
     
-    /* Button Styling */
-    .custom-button {
-        background-color: #92C756;
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        text-align: center;
-        margin: 10px 0;
-        cursor: pointer;
-        width: 100%;
-        border: none;
-        font-size: 1.1em;
-    }
-    .custom-button:hover {
-        background-color: #7DAD48;
+    /* Hide default Streamlit elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    
+    /* Hide default file uploader */
+    [data-testid="stFileUploadDropzone"] {
+        display: none;
     }
     
-    /* Icon Styling */
-    .icon {
-        font-size: 2em;
-        margin: 10px 0;
+    /* Custom button styling */
+    .stButton > button {
+        background-color: #92C756 !important;
+        color: white !important;
+        font-size: 16px !important;
+        padding: 16px 24px !important;
+        border-radius: 12px !important;
+        border: none !important;
+        width: 100% !important;
+        margin: 8px 0 !important;
+    }
+    
+    .stButton > button:hover {
+        background-color: #7DAD48 !important;
+        border: none !important;
+    }
+    
+    /* Image display styling */
+    [data-testid="stImage"] img {
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* Container for buttons */
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 1rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# TensorFlow Model Prediction Function
+# TensorFlow Model Functions
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model("./wheat.h5")
 
 def model_prediction(image_data):
     model = load_model()
-    # Convert uploaded image to PIL Image
     image = Image.open(image_data)
-    # Resize image
     image = image.resize((128, 128))
-    # Convert to array and preprocess
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])  # Convert single image to batch
-    # Get predictions
+    input_arr = np.array([input_arr])
     predictions = model.predict(input_arr)
     return np.argmax(predictions)
 
-# Header Card
+# Header Banner
 st.markdown("""
-    <div class="header-card">
-        <div class="header-text">
-            <h1>Wheat Leaf</h1>
-            <h1>Identifier</h1>
-        </div>
-        <div>
-            🌾
+    <div style="background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%); padding: 20px; border-radius: 20px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 style="color: white; margin: 0; font-size: 2.5em; font-weight: 800;">Wheat Leaf</h1>
+                <h2 style="color: white; margin: 0; font-size: 1.8em; font-weight: 600; opacity: 0.9;">Identifier</h2>
+            </div>
+            <div style="font-size: 2.5em;">🌾</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
 # Center Section
 st.markdown("""
-    <div class="center-section">
-        <div class="icon">🌿</div>
-        <div class="subtitle">
+    <div style="text-align: center; margin: 20px 0;">
+        <div style="font-size: 2.5em; color: #92C756; margin-bottom: 10px;">🌿</div>
+        <div style="font-size: 1.2em; color: #4A4A4A; line-height: 1.5;">
             Supporting Farmers in Safeguarding their Crop Health
         </div>
     </div>
 """, unsafe_allow_html=True)
 
+# Initialize session state
+if 'current_view' not in st.session_state:
+    st.session_state.current_view = None
+
 # Create columns for better layout
-col1, col2, col3 = st.columns([1,3,1])
+col1, col2, col3 = st.columns([1, 3, 1])
 
 with col2:
-    # Camera Input
-    camera_input = st.camera_input("Take a picture")
-    
-    # File Upload
-    uploaded_file = st.file_uploader("Or choose from gallery", type=['png', 'jpg', 'jpeg'])
-    
-    # Process either camera input or uploaded file
-    image_data = camera_input if camera_input is not None else uploaded_file
-    
-    if image_data is not None:
-        # Display the image
-        st.image(image_data, use_column_width=True)
-        
-        # Predict button
-        if st.button("Predict", key="predict_button"):
-            with st.spinner("Analyzing image..."):
-                st.snow()  # Visual effect
-                # Get prediction
-                result_index = model_prediction(image_data)
-                # Class names
-                class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
-                # Display result
-                st.success(f"Prediction: {class_names[result_index]}")
-                
-                # Additional information based on prediction
-                if class_names[result_index] == "Healthy":
-                    st.balloons()
-                    st.markdown("✅ Your wheat plant appears to be healthy!")
-                else:
-                    st.warning(f"Disease detected: {class_names[result_index]}")
-                    st.info("Consider consulting with an agricultural expert for treatment options.")
-    else:
-        st.info("Please take a picture or upload an image to begin analysis.") 
+    # Direct button implementation
+    camera_btn = st.button("📸 Take picture of your plant")
+    gallery_btn = st.button("🖼️ Import from your gallery")
+
+    # Handle button clicks
+    if camera_btn:
+        st.session_state.current_view = 'camera'
+    if gallery_btn:
+        st.session_state.current_view = 'gallery'
+
+    # Show appropriate view based on button clicks
+    if st.session_state.current_view == 'camera':
+        camera_input = st.camera_input("")
+        if camera_input:
+            st.image(camera_input)
+            if st.button("Analyze Image", key="analyze_camera"):
+                with st.spinner("📊 Analyzing your wheat leaf..."):
+                    st.snow()
+                    result_index = model_prediction(camera_input)
+                    class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                    if class_names[result_index] == "Healthy":
+                        st.success("✨ Your wheat plant is healthy!")
+                        st.balloons()
+                    else:
+                        st.warning(f"⚠️ Disease Detected: {class_names[result_index]}")
+                        st.info("💡 Recommendation: Consult with an agricultural expert for treatment options.")
+
+    elif st.session_state.current_view == 'gallery':
+        uploaded_file = st.file_uploader("", type=['png', 'jpg', 'jpeg'])
+        if uploaded_file:
+            st.image(uploaded_file)
+            if st.button("Analyze Image", key="analyze_upload"):
+                with st.spinner("📊 Analyzing your wheat leaf..."):
+                    st.snow()
+                    result_index = model_prediction(uploaded_file)
+                    class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                    if class_names[result_index] == "Healthy":
+                        st.success("✨ Your wheat plant is healthy!")
+                        st.balloons()
+                    else:
+                        st.warning(f"⚠️ Disease Detected: {class_names[result_index]}")
+                        st.info("💡 Recommendation: Consult with an agricultural expert for treatment options.") 
