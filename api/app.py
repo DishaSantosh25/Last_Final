@@ -19,8 +19,16 @@ def get_wheat_image():
             data = f.read()
             encoded = base64.b64encode(data).decode()
             return f"data:image/png;base64,{encoded}"
-    except:
-        return None
+    except Exception as e:
+        print(f"Error loading wheat image: {e}")
+        try:
+            with open("wheat.jpg", "rb") as f:
+                data = f.read()
+                encoded = base64.b64encode(data).decode()
+                return f"data:image/jpeg;base64,{encoded}"
+        except Exception as e:
+            print(f"Error loading fallback image: {e}")
+            return None
 
 wheat_image = get_wheat_image()
 
@@ -104,14 +112,14 @@ st.markdown(f"""
         position: absolute;
         right: 1rem;
         height: 135%;
-        width: auto;
-        max-width: none;
+        width: 180px;
         background-image: url('{wheat_image if wheat_image else ""}');
-        background-size: contain;
+        background-size: cover;
         background-position: center right;
         background-repeat: no-repeat;
         transform-origin: right center;
         image-rendering: -webkit-optimize-contrast;
+        opacity: 0.9;
     }}
     
     /* Disease Result Styling */
