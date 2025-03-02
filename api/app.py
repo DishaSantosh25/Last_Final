@@ -12,21 +12,29 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Base64 encoded wheat image
-WHEAT_IMAGE = """
-data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMSAxNS45M0M3LjA1IDE3LjQzIDQgMTQuOTcgNCAxMmMwLTQuNDIgMy41OC04IDgtOHM4IDMuNTggOCA4YzAgMi45Ny0zLjA1IDUuNDMtNyA1Ljkzdi0xMS45YzAtLjU1LS40NS0xLTEtMXMtMSAuNDUtMSAxdjExLjl6IiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPjwvc3ZnPg==
-"""
+# Load and encode the wheat image
+def get_wheat_image():
+    try:
+        with open("wheat.jpg", "rb") as f:
+            data = f.read()
+            encoded = base64.b64encode(data).decode()
+            return f"data:image/jpeg;base64,{encoded}"
+    except:
+        # Fallback to a default wheat emoji if image is not found
+        return None
 
-# Custom CSS
-st.markdown("""
+wheat_image = get_wheat_image()
+
+# Custom CSS with dynamic image
+st.markdown(f"""
 <style>
     /* Global Styles */
-    [data-testid="stAppViewContainer"] {
+    [data-testid="stAppViewContainer"] {{
         background-color: #FFFFFF;
-    }
+    }}
     
-    /* Header Banner - Reduced Height */
-    .header-banner {
+    /* Header Banner */
+    .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
         padding: 1.5rem;
@@ -36,71 +44,71 @@ st.markdown("""
         min-height: 120px;
         display: flex;
         align-items: center;
-    }
+    }}
     
     /* Wheat Image Container and Styling */
-    .wheat-image-container {
+    .wheat-image-container {{
         position: absolute;
         left: 0;
         top: 0;
         bottom: 0;
-        width: 30%;
+        width: 140px;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    }}
     
-    .wheat-image {
+    .wheat-image-container::before {{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        opacity: 0.35;
+        background-image: url('{wheat_image if wheat_image else ""}');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4;
         mix-blend-mode: multiply;
-        transform: scale(1.2);
-        filter: contrast(1.2) brightness(1.8);
-    }
+    }}
     
     /* Banner Content */
-    .banner-content {
+    .banner-content {{
         position: relative;
         z-index: 2;
-        margin-left: 25%;
-        width: 75%;
-    }
+        margin-left: 120px;
+        flex: 1;
+    }}
     
-    .title-text {
+    .title-text {{
         color: #FFFFFF;
         text-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
+    }}
     
-    .title-text h1 {
+    .title-text h1 {{
         font-size: 2.2em;
         font-weight: 800;
         margin: 0;
         line-height: 1;
         letter-spacing: -0.02em;
-    }
+    }}
     
-    .title-text h2 {
+    .title-text h2 {{
         font-size: 1.6em;
         font-weight: 600;
         margin: 2px 0 0 0;
         opacity: 0.95;
         letter-spacing: -0.01em;
-    }
+    }}
     
-    /* Result Display Styling */
-    .result-container {
+    /* Disease Result Styling */
+    .result-container {{
         margin: 1.5rem 0;
         padding: 1.2rem;
         border-radius: 12px;
         background: #FFFFFF;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+    }}
     
-    /* Disease Result Styling */
-    .disease-result {
+    .disease-result {{
         padding: 1.2rem;
         border-radius: 10px;
         margin: 0;
@@ -108,24 +116,24 @@ st.markdown("""
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
-    }
+    }}
     
-    .disease-warning {
+    .disease-warning {{
         background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 100%);
         color: #B8860B;
         border: 1px solid rgba(218, 165, 32, 0.3);
         box-shadow: 0 2px 12px rgba(218, 165, 32, 0.15);
-    }
+    }}
     
-    .disease-healthy {
+    .disease-healthy {{
         background: linear-gradient(135deg, #E6FFE6 0%, #98FB98 100%);
         color: #228B22;
         border: 1px solid rgba(34, 139, 34, 0.3);
         box-shadow: 0 2px 12px rgba(34, 139, 34, 0.15);
-    }
+    }}
     
     /* Button Styling */
-    .stButton > button {
+    .stButton > button {{
         background-color: #92C756 !important;
         color: white !important;
         font-size: 16px !important;
@@ -135,68 +143,54 @@ st.markdown("""
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
-    }
+    }}
     
-    .stButton > button:hover {
+    .stButton > button:hover {{
         background-color: #7DAD48 !important;
         border: none !important;
         transform: translateY(-2px) !important;
         box-shadow: 0 4px 12px rgba(146, 199, 86, 0.2) !important;
-    }
+    }}
     
     /* Center Section */
-    .center-section {
+    .center-section {{
         text-align: center;
         padding: 0.5rem 0 1.5rem 0;
-    }
+    }}
     
-    .leaf-icon {
+    .leaf-icon {{
         color: #92C756;
         font-size: 2.2em;
         margin-bottom: 0.5rem;
-    }
+    }}
     
-    .subtitle {
+    .subtitle {{
         color: #4A4A4A;
         font-size: 1.1em;
         line-height: 1.5;
         margin: 0.5rem 0;
         font-weight: 500;
-    }
+    }}
     
     /* Hide default elements */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
     
-    /* Hide default file uploader */
-    [data-testid="stFileUploadDropzone"] {
-        display: none;
-    }
-
     /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .header-banner {
-            padding: 2rem 1.5rem;
-            min-height: 140px;
-        }
-        
-        .wheat-image-container {
-            width: 30%;
-        }
-        
-        .banner-content {
-            margin-left: 25%;
-            width: 75%;
-        }
-        
-        .title-text h1 {
-            font-size: 2.2em;
-        }
-        
-        .title-text h2 {
-            font-size: 1.6em;
-        }
-    }
+    @media (max-width: 768px) {{
+        .wheat-image-container {{
+            width: 100px;
+        }}
+        .banner-content {{
+            margin-left: 90px;
+        }}
+        .title-text h1 {{
+            font-size: 1.8em;
+        }}
+        .title-text h2 {{
+            font-size: 1.4em;
+        }}
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -217,9 +211,7 @@ def model_prediction(image_data):
 # Header Banner with Wheat Image
 st.markdown("""
     <div class="header-banner">
-        <div class="wheat-image-container">
-            <img src="wheat.jpg" class="wheat-image" alt="Wheat"/>
-        </div>
+        <div class="wheat-image-container"></div>
         <div class="banner-content">
             <div class="title-text">
                 <h1>Wheat Leaf</h1>
