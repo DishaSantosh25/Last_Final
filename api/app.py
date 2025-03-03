@@ -60,7 +60,7 @@ st.markdown(f"""
         position: relative;
         z-index: 2;
         flex: none;
-        width: 55%;
+        width: 52%;
         padding-left: 1.2rem;
         padding-right: 0.5rem;
         display: flex;
@@ -113,10 +113,10 @@ st.markdown(f"""
     /* Wheat Image Container */
     .wheat-image-wrapper {{
         position: absolute;
-        right: -12px;
+        right: -15px;
         top: 0;
         height: 100%;
-        width: 45%;
+        width: 48%;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -126,16 +126,17 @@ st.markdown(f"""
     .wheat-image {{
         position: absolute;
         right: 0;
-        height: 120%;
-        width: 160px;
+        height: 135%;
+        width: 190px;
         background-image: url('{wheat_image if wheat_image else ""}');
         background-size: contain;
         background-position: center right;
         background-repeat: no-repeat;
         transform-origin: right center;
-        transform: translateY(-10%);
+        transform: translateY(-15%) scale(1.1);
         image-rendering: -webkit-optimize-contrast;
-        opacity: 0.95;
+        opacity: 1;
+        filter: contrast(1.05);
     }}
     
     /* Disease Result Styling */
@@ -222,7 +223,7 @@ st.markdown(f"""
             min-height: 110px;
         }}
         .banner-content {{
-            width: 52%;
+            width: 50%;
             padding-left: 1rem;
             padding-right: 0.4rem;
             min-width: 180px;
@@ -234,12 +235,13 @@ st.markdown(f"""
             font-size: 1.25em;
         }}
         .wheat-image-wrapper {{
-            right: -10px;
-            width: 48%;
+            right: -12px;
+            width: 50%;
         }}
         .wheat-image {{
-            width: 140px;
-            height: 115%;
+            width: 165px;
+            height: 130%;
+            transform: translateY(-12%) scale(1.08);
         }}
     }}
 
@@ -249,7 +251,7 @@ st.markdown(f"""
             min-height: 100px;
         }}
         .banner-content {{
-            width: 54%;
+            width: 52%;
             padding-left: 0.8rem;
             padding-right: 0.3rem;
             min-width: 150px;
@@ -261,12 +263,13 @@ st.markdown(f"""
             font-size: 1.1em;
         }}
         .wheat-image-wrapper {{
-            right: -8px;
-            width: 46%;
+            right: -10px;
+            width: 48%;
         }}
         .wheat-image {{
-            width: 120px;
-            height: 110%;
+            width: 140px;
+            height: 125%;
+            transform: translateY(-10%) scale(1.05);
         }}
     }}
 </style>
