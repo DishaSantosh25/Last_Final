@@ -180,7 +180,7 @@ st.markdown(f"""
         background-color: #92C756 !important;
         color: white !important;
         font-size: 14px !important;
-        padding: 16px 24px !important;
+        padding: 16px 18px !important;
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
@@ -191,6 +191,10 @@ st.markdown(f"""
         text-rendering: optimizeLegibility !important;
         line-height: 1 !important;
         font-weight: 500 !important;
+        max-width: 280px !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }}
     
     .stButton > button:hover {{
