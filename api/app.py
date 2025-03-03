@@ -174,7 +174,9 @@ st.markdown(f"""
     }}
     
     /* Button Styling */
-    .stButton > button {{
+    .stButton > button,
+    .stButton > button span,
+    .stButton > button p {{
         background-color: #92C756 !important;
         color: white !important;
         font-size: 16px !important;
@@ -186,6 +188,7 @@ st.markdown(f"""
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
         letter-spacing: 0.2px !important;
+        text-rendering: optimizeLegibility !important;
     }}
     
     .stButton > button:hover {{
