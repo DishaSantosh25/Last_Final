@@ -174,27 +174,16 @@ st.markdown(f"""
     }}
     
     /* Button Styling */
-    .stButton > button,
-    .stButton > button span,
-    .stButton > button p {{
+    .stButton > button {{
         background-color: #92C756 !important;
         color: white !important;
-        font-size: 14px !important;
-        padding: 16px 18px !important;
+        font-size: 16px !important;
+        padding: 16px 24px !important;
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
-        font-family: "Times New Roman", Times, serif !important;
-        letter-spacing: 0 !important;
-        text-rendering: optimizeLegibility !important;
-        line-height: 1 !important;
-        font-weight: 500 !important;
-        max-width: 280px !important;
-        display: block !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
     }}
     
     .stButton > button:hover {{
