@@ -184,6 +184,8 @@ st.markdown(f"""
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
+        font-family: "Times New Roman", Times, serif !important;
+        letter-spacing: 0.2px !important;
     }}
     
     .stButton > button:hover {{
