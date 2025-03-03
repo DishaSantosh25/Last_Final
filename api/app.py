@@ -84,7 +84,7 @@ st.markdown(f"""
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         width: 100%;
         padding: 0.7rem 0;
         font-family: "Times New Roman", Times, serif;
@@ -100,8 +100,8 @@ st.markdown(f"""
     }}
     
     .title-text h1 {{
-        font-size: 2.3em;
-        font-weight: 800;
+        font-size: 2.1em;
+        font-weight: 700;
         margin: 0;
         padding: 0;
         letter-spacing: -0.01em;
@@ -113,8 +113,8 @@ st.markdown(f"""
     }}
     
     .title-text h2 {{
-        font-size: 1.8em;
-        font-weight: 600;
+        font-size: 1.6em;
+        font-weight: 400;
         margin: 0;
         padding: 0;
         letter-spacing: 0;
@@ -170,7 +170,7 @@ st.markdown(f"""
         padding: 1.2rem;
         border-radius: 10px;
         margin: 0;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
@@ -203,6 +203,7 @@ st.markdown(f"""
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
+        font-weight: 500 !important;
     }}
     
     .stButton > button:hover {{
@@ -254,10 +255,10 @@ st.markdown(f"""
             padding: 0.6rem 0;
         }}
         .title-text h1 {{
-            font-size: 2em;
+            font-size: 1.8em;
         }}
         .title-text h2 {{
-            font-size: 1.5em;
+            font-size: 1.4em;
         }}
         .wheat-image-wrapper {{
             right: -12px;
@@ -285,10 +286,10 @@ st.markdown(f"""
             padding: 0.5rem 0;
         }}
         .title-text h1 {{
-            font-size: 1.7em;
+            font-size: 1.5em;
         }}
         .title-text h2 {{
-            font-size: 1.35em;
+            font-size: 1.2em;
         }}
         .wheat-image-wrapper {{
             right: -10px;
