@@ -44,11 +44,11 @@ st.markdown(f"""
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
         border-radius: 16px;
-        padding: 1.8rem 1.2rem;
+        padding: 2rem 1.2rem;
         margin-bottom: 1.5rem;
         position: relative;
         overflow: visible;
-        min-height: 145px;
+        min-height: 155px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -61,7 +61,7 @@ st.markdown(f"""
         z-index: 2;
         flex: none;
         width: 52%;
-        padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+        padding: 0.6rem 0.5rem 0.6rem 1.2rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -72,9 +72,9 @@ st.markdown(f"""
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 6px;
         width: 100%;
-        padding: 0.3rem 0;
+        padding: 0.4rem 0;
     }}
     
     .title-text {{
@@ -114,7 +114,8 @@ st.markdown(f"""
     .wheat-image-wrapper {{
         position: absolute;
         right: -15px;
-        top: 0;
+        top: 50%;
+        transform: translateY(-50%);
         height: 100%;
         width: 48%;
         display: flex;
@@ -126,14 +127,14 @@ st.markdown(f"""
     .wheat-image {{
         position: absolute;
         right: 0;
-        height: 145%;
+        height: 150%;
         width: 200px;
         background-image: url('{wheat_image if wheat_image else ""}');
         background-size: contain;
         background-position: center right;
         background-repeat: no-repeat;
         transform-origin: right center;
-        transform: translateY(-20%) scale(1.12);
+        transform: translateY(-5%) scale(1.12);
         image-rendering: -webkit-optimize-contrast;
         opacity: 1;
         filter: contrast(1.05);
@@ -219,17 +220,17 @@ st.markdown(f"""
     /* Responsive adjustments */
     @media (max-width: 768px) {{
         .header-banner {{
-            padding: 1.5rem 1rem;
-            min-height: 135px;
+            padding: 1.7rem 1rem;
+            min-height: 145px;
         }}
         .banner-content {{
             width: 50%;
-            padding: 0.4rem 0.4rem 0.4rem 1rem;
+            padding: 0.5rem 0.4rem 0.5rem 1rem;
             min-width: 180px;
         }}
         .title-container {{
-            gap: 4px;
-            padding: 0.25rem 0;
+            gap: 5px;
+            padding: 0.3rem 0;
         }}
         .title-text h1 {{
             font-size: 1.8em;
@@ -243,24 +244,24 @@ st.markdown(f"""
         }}
         .wheat-image {{
             width: 175px;
-            height: 140%;
-            transform: translateY(-18%) scale(1.1);
+            height: 145%;
+            transform: translateY(-5%) scale(1.1);
         }}
     }}
 
     @media (max-width: 480px) {{
         .header-banner {{
-            padding: 1.3rem 0.8rem;
-            min-height: 125px;
+            padding: 1.5rem 0.8rem;
+            min-height: 135px;
         }}
         .banner-content {{
             width: 52%;
-            padding: 0.3rem 0.3rem 0.3rem 0.8rem;
+            padding: 0.4rem 0.3rem 0.4rem 0.8rem;
             min-width: 150px;
         }}
         .title-container {{
-            gap: 3px;
-            padding: 0.2rem 0;
+            gap: 4px;
+            padding: 0.25rem 0;
         }}
         .title-text h1 {{
             font-size: 1.5em;
@@ -274,8 +275,8 @@ st.markdown(f"""
         }}
         .wheat-image {{
             width: 150px;
-            height: 135%;
-            transform: translateY(-15%) scale(1.08);
+            height: 140%;
+            transform: translateY(-5%) scale(1.08);
         }}
     }}
 </style>
