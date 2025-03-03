@@ -38,6 +38,7 @@ st.markdown(f"""
     /* Global Styles */
     [data-testid="stAppViewContainer"] {{
         background-color: #FFFFFF;
+        font-family: "Times New Roman", Times, serif;
     }}
 
     /* Header Banner */
@@ -53,6 +54,7 @@ st.markdown(f"""
         align-items: center;
         justify-content: flex-start;
         box-shadow: 0 4px 15px rgba(245, 192, 107, 0.2);
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Title Container */
@@ -62,6 +64,7 @@ st.markdown(f"""
         gap: 10px;
         width: 100%;
         padding: 0.7rem 0;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text {{
@@ -70,6 +73,7 @@ st.markdown(f"""
         line-height: 1.2;
         width: 100%;
         max-width: 100%;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h1 {{
@@ -82,6 +86,7 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h2 {{
@@ -95,6 +100,7 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Wheat Image Container */
@@ -131,6 +137,7 @@ st.markdown(f"""
     .center-section {{
         text-align: center;
         padding: 0.5rem 0 1.5rem 0;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .subtitle {{
@@ -139,6 +146,7 @@ st.markdown(f"""
         line-height: 1.5;
         margin: 0.5rem 0;
         font-weight: 500;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Disease Result Styling */
@@ -150,6 +158,7 @@ st.markdown(f"""
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Button Styling */
@@ -163,6 +172,7 @@ st.markdown(f"""
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Hide default elements */
