@@ -174,10 +174,12 @@ st.markdown(f"""
     }}
     
     /* Button Styling */
-    .stButton > button {{
+    .stButton > button,
+    .stButton > button *,
+    .stButton button span {{
         background-color: #92C756 !important;
         color: white !important;
-        font-size: 13px !important;
+        font-size: 14px !important;
         padding: 16px 24px !important;
         border-radius: 12px !important;
         border: none !important;
@@ -185,7 +187,7 @@ st.markdown(f"""
         margin: 1px 0 !important;
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
-        letter-spacing: 0.2px !important;
+        letter-spacing: 0 !important;
         text-rendering: optimizeLegibility !important;
         -webkit-font-smoothing: antialiased !important;
         line-height: 1 !important;
@@ -196,6 +198,7 @@ st.markdown(f"""
         justify-content: center !important;
         white-space: nowrap !important;
         text-align: center !important;
+        box-sizing: border-box !important;
     }}
     
     .stButton > button:hover {{
@@ -203,6 +206,14 @@ st.markdown(f"""
         border: none !important;
         transform: translateY(-2px) !important;
         box-shadow: 0 4px 12px rgba(146, 199, 86, 0.2) !important;
+    }}
+
+    /* Additional button text override */
+    .stButton button[kind="secondary"] span,
+    .stButton button[kind="primary"] span {{
+        font-family: "Times New Roman", Times, serif !important;
+        font-size: 14px !important;
+        letter-spacing: 0 !important;
     }}
     
     /* Center Section */
