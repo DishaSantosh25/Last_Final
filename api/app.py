@@ -36,28 +36,10 @@ wheat_image = get_wheat_image()
 st.markdown(f"""
 <style>
     /* Global Styles */
-    [data-testid="stAppViewContainer"],
-    [data-testid="stMarkdown"],
-    [data-testid="baseButton-secondary"],
-    .stButton button,
-    .stMarkdown,
-    .uploadedFile,
-    .css-1offfwp,
-    div[class*="stText"],
-    div[class*="text"] {{
-        font-family: "Times New Roman", Times, serif !important;
+    [data-testid="stAppViewContainer"] {{
+        background-color: #FFFFFF;
     }}
-    
-    /* Apply Times New Roman to all text elements */
-    .stMarkdown, 
-    .stButton > button,
-    .stText,
-    div[data-testid="stText"],
-    div[data-testid="stMarkdown"],
-    .element-container {{
-        font-family: "Times New Roman", Times, serif !important;
-    }}
-    
+
     /* Header Banner */
     .header-banner {{
         background: linear-gradient(135deg, #F5C06B 0%, #F9D69B 100%);
@@ -71,30 +53,15 @@ st.markdown(f"""
         align-items: center;
         justify-content: flex-start;
         box-shadow: 0 4px 15px rgba(245, 192, 107, 0.2);
-        font-family: "Times New Roman", Times, serif;
-    }}
-    
-    /* Banner Content */
-    .banner-content {{
-        position: relative;
-        z-index: 2;
-        flex: none;
-        width: 52%;
-        padding: 0.8rem 0.5rem 0.8rem 1.2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-width: 220px;
     }}
     
     /* Title Container */
     .title-container {{
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
         width: 100%;
         padding: 0.7rem 0;
-        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text {{
@@ -103,12 +70,11 @@ st.markdown(f"""
         line-height: 1.2;
         width: 100%;
         max-width: 100%;
-        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h1 {{
-        font-size: 2.1em;
-        font-weight: 700;
+        font-size: 2.3em;
+        font-weight: 800;
         margin: 0;
         padding: 0;
         letter-spacing: -0.01em;
@@ -116,12 +82,11 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
-        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h2 {{
-        font-size: 1.6em;
-        font-weight: 400;
+        font-size: 1.8em;
+        font-weight: 600;
         margin: 0;
         padding: 0;
         letter-spacing: 0;
@@ -130,7 +95,6 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
-        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Wheat Image Container */
@@ -163,41 +127,29 @@ st.markdown(f"""
         filter: contrast(1.05) brightness(1.02);
     }}
     
-    /* Disease Result Styling */
-    .result-container {{
-        margin: 1.5rem 0;
-        padding: 1.2rem;
-        border-radius: 12px;
-        background: #FFFFFF;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        font-family: "Times New Roman", Times, serif;
+    /* Center Section */
+    .center-section {{
+        text-align: center;
+        padding: 0.5rem 0 1.5rem 0;
     }}
     
+    .subtitle {{
+        color: #4A4A4A;
+        font-size: 1.1em;
+        line-height: 1.5;
+        margin: 0.5rem 0;
+        font-weight: 500;
+    }}
+    
+    /* Disease Result Styling */
     .disease-result {{
         padding: 1.2rem;
         border-radius: 10px;
         margin: 0;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
-        font-family: "Times New Roman", Times, serif !important;
-    }}
-    
-    .disease-warning {{
-        background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 100%);
-        color: #B8860B;
-        border: 1px solid rgba(218, 165, 32, 0.3);
-        box-shadow: 0 2px 12px rgba(218, 165, 32, 0.15);
-        font-family: "Times New Roman", Times, serif !important;
-    }}
-    
-    .disease-healthy {{
-        background: linear-gradient(135deg, #E6FFE6 0%, #98FB98 100%);
-        color: #228B22;
-        border: 1px solid rgba(34, 139, 34, 0.3);
-        box-shadow: 0 2px 12px rgba(34, 139, 34, 0.15);
-        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Button Styling */
@@ -211,38 +163,6 @@ st.markdown(f"""
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
-        font-family: "Times New Roman", Times, serif !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.02em !important;
-    }}
-    
-    .stButton > button:hover {{
-        background-color: #7DAD48 !important;
-        border: none !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(146, 199, 86, 0.2) !important;
-    }}
-    
-    /* Center Section */
-    .center-section {{
-        text-align: center;
-        padding: 0.5rem 0 1.5rem 0;
-        font-family: "Times New Roman", Times, serif !important;
-    }}
-    
-    .leaf-icon {{
-        color: #92C756;
-        font-size: 2.2em;
-        margin-bottom: 0.5rem;
-    }}
-    
-    .subtitle {{
-        color: #4A4A4A;
-        font-size: 1.1em;
-        line-height: 1.5;
-        margin: 0.5rem 0;
-        font-weight: 500;
-        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Hide default elements */
@@ -251,64 +171,20 @@ st.markdown(f"""
     
     /* Responsive adjustments */
     @media (max-width: 768px) {{
-        .header-banner {{
-            padding: 2.5rem 1rem;
-            min-height: 170px;
-        }}
-        .banner-content {{
-            width: 50%;
-            padding: 0.7rem 0.4rem 0.7rem 1rem;
-            min-width: 180px;
-        }}
-        .title-container {{
-            gap: 8px;
-            padding: 0.6rem 0;
-        }}
         .title-text h1 {{
-            font-size: 1.8em;
+            font-size: 2em;
         }}
         .title-text h2 {{
-            font-size: 1.4em;
-        }}
-        .wheat-image-wrapper {{
-            right: -12px;
-            width: 50%;
-        }}
-        .wheat-image {{
-            width: 195px;
-            height: 175%;
-            transform: translateY(0) scale(1.12);
+            font-size: 1.5em;
         }}
     }}
 
     @media (max-width: 480px) {{
-        .header-banner {{
-            padding: 2.3rem 0.8rem;
-            min-height: 160px;
-        }}
-        .banner-content {{
-            width: 52%;
-            padding: 0.6rem 0.3rem 0.6rem 0.8rem;
-            min-width: 150px;
-        }}
-        .title-container {{
-            gap: 7px;
-            padding: 0.5rem 0;
-        }}
         .title-text h1 {{
-            font-size: 1.5em;
+            font-size: 1.7em;
         }}
         .title-text h2 {{
-            font-size: 1.2em;
-        }}
-        .wheat-image-wrapper {{
-            right: -10px;
-            width: 48%;
-        }}
-        .wheat-image {{
-            width: 170px;
-            height: 170%;
-            transform: translateY(0) scale(1.1);
+            font-size: 1.35em;
         }}
     }}
 
