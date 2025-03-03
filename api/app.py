@@ -160,10 +160,11 @@ st.markdown(f"""
     }}
     
     .disease-warning {{
-        background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 100%);
-        color: #B8860B;
-        border: 1px solid rgba(218, 165, 32, 0.3);
-        box-shadow: 0 2px 12px rgba(218, 165, 32, 0.15);
+        background: linear-gradient(135deg, #FFE4E4 0%, #FFD0D0 100%);
+        color: #D43B3B;
+        border: 1px solid rgba(212, 59, 59, 0.3);
+        box-shadow: 0 2px 12px rgba(212, 59, 59, 0.15);
+        animation: pulseWarning 2s infinite;
     }}
     
     .disease-healthy {{
@@ -171,6 +172,44 @@ st.markdown(f"""
         color: #228B22;
         border: 1px solid rgba(34, 139, 34, 0.3);
         box-shadow: 0 2px 12px rgba(34, 139, 34, 0.15);
+    }}
+
+    @keyframes pulseWarning {{
+        0% {{
+            transform: scale(1);
+            box-shadow: 0 2px 12px rgba(212, 59, 59, 0.15);
+        }}
+        50% {{
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(212, 59, 59, 0.25);
+        }}
+        100% {{
+            transform: scale(1);
+            box-shadow: 0 2px 12px rgba(212, 59, 59, 0.15);
+        }}
+    }}
+
+    /* Disease Details Container */
+    .disease-details {{
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        background: rgba(255, 228, 228, 0.3);
+        border: 1px solid rgba(212, 59, 59, 0.2);
+    }}
+
+    .disease-details h3 {{
+        color: #D43B3B;
+        margin-bottom: 0.5rem;
+        font-size: 1.1em;
+        font-weight: 600;
+    }}
+
+    .disease-details p {{
+        color: #333333;
+        margin: 0.5rem 0;
+        line-height: 1.4;
+        font-size: 1em;
     }}
     
     /* Button Styling */
@@ -446,8 +485,15 @@ with col2:
                         )
                         st.balloons()
                     else:
+                        disease_name = class_names[result_index]
                         st.markdown(
-                            f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
+                            f'''
+                            <div class="disease-result disease-warning">⚠️ Disease Detected: {disease_name}</div>
+                            <div class="disease-details">
+                                <h3>About {disease_name}</h3>
+                                <p>This wheat disease requires immediate attention. Early detection allows for effective treatment and prevents spread to other plants.</p>
+                            </div>
+                            ''',
                             unsafe_allow_html=True
                         )
                     
