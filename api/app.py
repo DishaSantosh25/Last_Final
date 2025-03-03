@@ -38,6 +38,17 @@ st.markdown(f"""
     /* Global Styles */
     [data-testid="stAppViewContainer"] {{
         background-color: #FFFFFF;
+        font-family: "Times New Roman", Times, serif;
+    }}
+    
+    /* Apply Times New Roman to all text elements */
+    .stMarkdown, 
+    .stButton > button,
+    .stText,
+    div[data-testid="stText"],
+    div[data-testid="stMarkdown"],
+    .element-container {{
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Header Banner */
@@ -53,6 +64,7 @@ st.markdown(f"""
         align-items: center;
         justify-content: flex-start;
         box-shadow: 0 4px 15px rgba(245, 192, 107, 0.2);
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Banner Content */
@@ -151,6 +163,7 @@ st.markdown(f"""
         border-radius: 12px;
         background: #FFFFFF;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .disease-result {{
@@ -161,6 +174,7 @@ st.markdown(f"""
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .disease-warning {{
@@ -188,6 +202,7 @@ st.markdown(f"""
         width: 100% !important;
         margin: 8px 0 !important;
         transition: all 0.3s ease !important;
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     .stButton > button:hover {{
@@ -201,6 +216,7 @@ st.markdown(f"""
     .center-section {{
         text-align: center;
         padding: 0.5rem 0 1.5rem 0;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .leaf-icon {{
@@ -215,6 +231,7 @@ st.markdown(f"""
         line-height: 1.5;
         margin: 0.5rem 0;
         font-weight: 500;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Hide default elements */
