@@ -209,8 +209,13 @@ st.markdown(f"""
         color: #4A4A4A;
         font-size: 1.1em;
         line-height: 1.5;
-        margin: 0.5rem 0;
+        margin: 0.5rem 0 2.5rem 0;
         font-weight: 500;
+    }}
+    
+    /* Button Container */
+    .stButton {{
+        margin-top: 1rem;
     }}
     
     /* Hide default elements */
