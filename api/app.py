@@ -36,9 +36,16 @@ wheat_image = get_wheat_image()
 st.markdown(f"""
 <style>
     /* Global Styles */
-    [data-testid="stAppViewContainer"] {{
-        background-color: #FFFFFF;
-        font-family: "Times New Roman", Times, serif;
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMarkdown"],
+    [data-testid="baseButton-secondary"],
+    .stButton button,
+    .stMarkdown,
+    .uploadedFile,
+    .css-1offfwp,
+    div[class*="stText"],
+    div[class*="text"] {{
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Apply Times New Roman to all text elements */
@@ -174,7 +181,7 @@ st.markdown(f"""
         font-size: 1.3em;
         text-align: center;
         transition: all 0.3s ease;
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     .disease-warning {{
@@ -182,6 +189,7 @@ st.markdown(f"""
         color: #B8860B;
         border: 1px solid rgba(218, 165, 32, 0.3);
         box-shadow: 0 2px 12px rgba(218, 165, 32, 0.15);
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     .disease-healthy {{
@@ -189,6 +197,7 @@ st.markdown(f"""
         color: #228B22;
         border: 1px solid rgba(34, 139, 34, 0.3);
         box-shadow: 0 2px 12px rgba(34, 139, 34, 0.15);
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Button Styling */
@@ -204,6 +213,7 @@ st.markdown(f"""
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
         font-weight: 500 !important;
+        letter-spacing: 0.02em !important;
     }}
     
     .stButton > button:hover {{
@@ -217,7 +227,7 @@ st.markdown(f"""
     .center-section {{
         text-align: center;
         padding: 0.5rem 0 1.5rem 0;
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     .leaf-icon {{
@@ -232,7 +242,7 @@ st.markdown(f"""
         line-height: 1.5;
         margin: 0.5rem 0;
         font-weight: 500;
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Times New Roman", Times, serif !important;
     }}
     
     /* Hide default elements */
@@ -300,6 +310,25 @@ st.markdown(f"""
             height: 170%;
             transform: translateY(0) scale(1.1);
         }}
+    }}
+
+    /* File Upload Text */
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] label {{
+        font-family: "Times New Roman", Times, serif !important;
+    }}
+
+    /* Camera Input Text */
+    [data-testid="stCamera"] div,
+    [data-testid="stCamera"] span,
+    [data-testid="stCamera"] label {{
+        font-family: "Times New Roman", Times, serif !important;
+    }}
+
+    /* Spinner Text */
+    [data-testid="stSpinner"] div {{
+        font-family: "Times New Roman", Times, serif !important;
     }}
 </style>
 """, unsafe_allow_html=True)
