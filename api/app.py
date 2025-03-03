@@ -459,8 +459,21 @@ with col2:
                         )
                         st.balloons()
                     else:
+                        disease_name = class_names[result_index]
+                        recommendations = {
+                            "Brown_rust": "Apply fungicide treatment immediately. Monitor other plants for early signs of infection.",
+                            "Loose_Smut": "Remove and destroy infected plants. Consider using disease-resistant wheat varieties for future planting.",
+                            "Yellow_rust": "Apply appropriate fungicides. Improve air circulation between plants and reduce humidity.",
+                            "septoria": "Use foliar fungicides. Maintain proper spacing between plants to reduce moisture."
+                        }
                         st.markdown(
-                            f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
+                            f'''
+                            <div class="disease-result disease-warning">⚠️ Disease Detected: {disease_name}</div>
+                            <div class="disease-details">
+                                <h3>About {disease_name}</h3>
+                                <p>{recommendations.get(disease_name, "This wheat disease requires immediate attention. Early detection allows for effective treatment and prevents spread to other plants.")}</p>
+                            </div>
+                            ''',
                             unsafe_allow_html=True
                         )
                     
@@ -486,12 +499,18 @@ with col2:
                         st.balloons()
                     else:
                         disease_name = class_names[result_index]
+                        recommendations = {
+                            "Brown_rust": "Apply fungicide treatment immediately. Monitor other plants for early signs of infection.",
+                            "Loose_Smut": "Remove and destroy infected plants. Consider using disease-resistant wheat varieties for future planting.",
+                            "Yellow_rust": "Apply appropriate fungicides. Improve air circulation between plants and reduce humidity.",
+                            "septoria": "Use foliar fungicides. Maintain proper spacing between plants to reduce moisture."
+                        }
                         st.markdown(
                             f'''
                             <div class="disease-result disease-warning">⚠️ Disease Detected: {disease_name}</div>
                             <div class="disease-details">
                                 <h3>About {disease_name}</h3>
-                                <p>This wheat disease requires immediate attention. Early detection allows for effective treatment and prevents spread to other plants.</p>
+                                <p>{recommendations.get(disease_name, "This wheat disease requires immediate attention. Early detection allows for effective treatment and prevents spread to other plants.")}</p>
                             </div>
                             ''',
                             unsafe_allow_html=True
