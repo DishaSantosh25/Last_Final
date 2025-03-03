@@ -279,6 +279,29 @@ st.markdown(f"""
             transform: translateY(0) scale(1.1);
         }}
     }}
+
+    /* Global Font Style */
+    [data-testid="stAppViewContainer"],
+    .stMarkdown,
+    .stButton > button,
+    .stText,
+    div[data-testid="stText"],
+    div[data-testid="stMarkdown"],
+    .element-container,
+    .header-banner,
+    .title-container,
+    .title-text,
+    .title-text h1,
+    .title-text h2,
+    .center-section,
+    .subtitle,
+    .disease-result,
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stCamera"] div,
+    [data-testid="stCamera"] span {{
+        font-family: "Times New Roman", Times, serif !important;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
