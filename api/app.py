@@ -417,7 +417,7 @@ st.markdown("""
     <div class="center-section">
         <div class="leaf-icon">🌿</div>
         <div class="subtitle">
-            Supporting Farmers in Safeguarding their Crop Health
+            Supporting Farmers in<br>Safeguarding their Crop Health
         </div>
     </div>
 """, unsafe_allow_html=True)
