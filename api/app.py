@@ -177,7 +177,7 @@ st.markdown(f"""
     .stButton > button {{
         background-color: #92C756 !important;
         color: white !important;
-        font-size: 14px !important;
+        font-size: 13.5px !important;
         padding: 16px 24px !important;
         border-radius: 12px !important;
         border: none !important;
@@ -185,10 +185,15 @@ st.markdown(f"""
         margin: 1px 0 !important;
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
-        letter-spacing: 0 !important;
+        letter-spacing: 0.1px !important;
         text-rendering: optimizeLegibility !important;
         line-height: 1 !important;
         font-weight: 500 !important;
+        height: auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
     }}
     
     .stButton > button:hover {{
