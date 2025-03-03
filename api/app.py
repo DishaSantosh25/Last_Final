@@ -447,7 +447,6 @@ with col2:
             st.image(camera_input)
             if st.button("Analyze Image", key="analyze_camera"):
                 with st.spinner("📊 Analyzing your wheat leaf..."):
-                    st.snow()
                     result_index = model_prediction(camera_input)
                     class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
                     
@@ -458,7 +457,6 @@ with col2:
                             f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
                             unsafe_allow_html=True
                         )
-                        st.balloons()
                     else:
                         disease_name = class_names[result_index]
                         recommendations = {
@@ -486,7 +484,6 @@ with col2:
             st.image(uploaded_file)
             if st.button("Analyze Image", key="analyze_upload"):
                 with st.spinner("📊 Analyzing your wheat leaf..."):
-                    st.snow()
                     result_index = model_prediction(uploaded_file)
                     class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
                     
@@ -497,7 +494,6 @@ with col2:
                             f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
                             unsafe_allow_html=True
                         )
-                        st.balloons()
                     else:
                         disease_name = class_names[result_index]
                         recommendations = {
