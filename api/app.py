@@ -174,7 +174,7 @@ st.markdown(f"""
     }}
     
     /* Button Styling */
-    .stButton > button {{
+    .stButton > button {
         background-color: #92C756 !important;
         color: white !important;
         font-size: 14px !important;
@@ -182,21 +182,21 @@ st.markdown(f"""
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
-        margin: 4px 0 !important;
+        margin: 2px 0 !important;
         transition: all 0.3s ease !important;
         font-family: "Times New Roman", Times, serif !important;
         letter-spacing: 0 !important;
         text-rendering: optimizeLegibility !important;
         line-height: 1 !important;
         font-weight: 500 !important;
-    }}
+    }
     
-    .stButton > button:hover {{
+    .stButton > button:hover {
         background-color: #7DAD48 !important;
         border: none !important;
         transform: translateY(-2px) !important;
         box-shadow: 0 4px 12px rgba(146, 199, 86, 0.2) !important;
-    }}
+    }
     
     /* Center Section */
     .center-section {{
@@ -219,17 +219,17 @@ st.markdown(f"""
     }}
     
     /* Button Container */
-    .stButton {{
-        margin-top: 0.5rem !important;
-    }}
-    
-    .stButton:first-child {{
-        margin-bottom: 0.25rem !important;
-    }}
-    
-    .stButton:last-child {{
+    .stButton {
         margin-top: 0.25rem !important;
-    }}
+    }
+    
+    .stButton:first-child {
+        margin-bottom: 0.125rem !important;
+    }
+    
+    .stButton:last-child {
+        margin-top: 0.125rem !important;
+    }
     
     /* Hide default elements */
     #MainMenu {{visibility: hidden;}}
