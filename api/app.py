@@ -13,18 +13,6 @@ st.set_page_config(
 )
 
 
-# Custom CSS to hide unwanted UI elements
-hide_streamlit_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stDeployButton {display: none !important;}
-    .st-emotion-cache-0 {display: none !important;} /* Hides "Running in a fork" */
-    </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
 # Load and encode the wheat image
 def get_wheat_image():
     try:
