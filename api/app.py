@@ -390,15 +390,28 @@ if 'current_view' not in st.session_state:
 col1, col2, col3 = st.columns([1, 3, 1])
 
 with col2:
-    # Direct button implementation
+    # Camera button
     camera_btn = st.button("📸 Take picture of your plant")
-    gallery_btn = st.button("🖼️ Import from Gallery")
+    
+    # Gallery implementation
+    if 'gallery_clicked' not in st.session_state:
+        st.session_state.gallery_clicked = False
+        
+    # Hidden uploader that appears when gallery button is clicked
+    if st.session_state.gallery_clicked:
+        uploaded_file = st.file_uploader("", type=['png', 'jpg', 'jpeg'], key="gallery_upload")
+    else:
+        uploaded_file = None
+        
+    # Gallery button
+    if st.button("🖼️ Import from Gallery"):
+        st.session_state.gallery_clicked = True
+        st.experimental_rerun()
 
     # Handle button clicks
     if camera_btn:
         st.session_state.current_view = 'camera'
-    if gallery_btn:
-        st.session_state.current_view = 'gallery'
+        st.session_state.gallery_clicked = False
 
     # Show appropriate view based on button clicks
     if st.session_state.current_view == 'camera':
@@ -427,29 +440,28 @@ with col2:
                     
                     st.markdown('</div>', unsafe_allow_html=True)
 
-    elif st.session_state.current_view == 'gallery':
-        uploaded_file = st.file_uploader("Choose a wheat leaf image", type=['png', 'jpg', 'jpeg'])
-        if uploaded_file:
-            st.image(uploaded_file)
-            if st.button("Analyze Image", key="analyze_upload"):
-                with st.spinner("📊 Analyzing your wheat leaf..."):
-                    st.snow()
-                    result_index = model_prediction(uploaded_file)
-                    class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
-                    
-                    st.markdown('<div class="result-container">', unsafe_allow_html=True)
-                    
-                    if class_names[result_index] == "Healthy":
-                        st.markdown(
-                            f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
-                            unsafe_allow_html=True
-                        )
-                        st.balloons()
-                    else:
-                        st.markdown(
-                            f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
-                            unsafe_allow_html=True
-                        )
-                    
-                    st.markdown('</div>', unsafe_allow_html=True) 
-                    st.markdown('</div>', unsafe_allow_html=True) 
+    # Handle gallery view and analysis
+    if uploaded_file:
+        st.image(uploaded_file)
+        if st.button("Analyze Image", key="analyze_upload"):
+            with st.spinner("📊 Analyzing your wheat leaf..."):
+                st.snow()
+                result_index = model_prediction(uploaded_file)
+                class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                
+                st.markdown('<div class="result-container">', unsafe_allow_html=True)
+                
+                if class_names[result_index] == "Healthy":
+                    st.markdown(
+                        f'<div class="disease-result disease-healthy">✨ Your wheat plant is healthy!</div>',
+                        unsafe_allow_html=True
+                    )
+                    st.balloons()
+                else:
+                    st.markdown(
+                        f'<div class="disease-result disease-warning">⚠️ Disease Detected: {class_names[result_index]}</div>',
+                        unsafe_allow_html=True
+                    )
+                
+                st.markdown('</div>', unsafe_allow_html=True) 
+                st.markdown('</div>', unsafe_allow_html=True) 
