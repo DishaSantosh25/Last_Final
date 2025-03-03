@@ -75,6 +75,7 @@ st.markdown(f"""
         gap: 10px;
         width: 100%;
         padding: 0.7rem 0;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text {{
@@ -83,6 +84,7 @@ st.markdown(f"""
         line-height: 1.2;
         width: 100%;
         max-width: 100%;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h1 {{
@@ -95,6 +97,7 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     .title-text h2 {{
@@ -108,6 +111,7 @@ st.markdown(f"""
         overflow: visible;
         width: 100%;
         display: block;
+        font-family: "Times New Roman", Times, serif;
     }}
     
     /* Wheat Image Container */
