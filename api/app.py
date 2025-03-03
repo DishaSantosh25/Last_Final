@@ -392,7 +392,7 @@ col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
     # Direct button implementation
     camera_btn = st.button("📸 Take picture of your plant")
-    gallery_btn = st.button("🖼️ Import from your gallery")
+    gallery_btn = st.button("🖼️ Select from Gallery (Opens file picker)")
 
     # Handle button clicks
     if camera_btn:
@@ -428,6 +428,7 @@ with col2:
                     st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.current_view == 'gallery':
+        st.info("💡 Select an image from your gallery through your device's file picker", icon="ℹ️")
         uploaded_file = st.file_uploader("", type=['png', 'jpg', 'jpeg'])
         if uploaded_file:
             st.image(uploaded_file)
