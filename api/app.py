@@ -37,13 +37,13 @@ wheat_image = get_wheat_image()
 st.markdown(f"""
 <style>
     /* Hide Streamlit Branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stDeployButton {display: none;}
-    div[data-testid="stToolbar"] {visibility: hidden;}
-    div[data-testid="stDecoration"] {visibility: hidden;}
-    section[data-testid="stSidebar"] div[data-testid="stToolbar"] {display: none;}
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    header {{visibility: hidden;}}
+    .stDeployButton {{display: none;}}
+    div[data-testid="stToolbar"] {{visibility: hidden;}}
+    div[data-testid="stDecoration"] {{visibility: hidden;}}
+    section[data-testid="stSidebar"] div[data-testid="stToolbar"] {{display: none;}}
     
     /* Global Styles */
     [data-testid="stAppViewContainer"] {{
