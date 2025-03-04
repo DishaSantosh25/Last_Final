@@ -21,6 +21,15 @@ header {visibility: hidden;}     /* Hides the header */
 """
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+st.markdown(
+    """
+    <script>
+    var footer = document.getElementsByClassName("stDeployButton")[0];
+    if (footer) { footer.style.display = "none"; }
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # Load and encode the wheat image
