@@ -36,6 +36,15 @@ wheat_image = get_wheat_image()
 # Custom CSS with dynamic image
 st.markdown(f"""
 <style>
+    /* Hide Streamlit Branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {display: none;}
+    div[data-testid="stToolbar"] {visibility: hidden;}
+    div[data-testid="stDecoration"] {visibility: hidden;}
+    section[data-testid="stSidebar"] div[data-testid="stToolbar"] {display: none;}
+    
     /* Global Styles */
     [data-testid="stAppViewContainer"] {{
         background-color: #FFFFFF;
@@ -288,10 +297,6 @@ st.markdown(f"""
     .stButton:last-child {{
         margin-top: 0.1rem !important;
     }}
-    
-    /* Hide default elements */
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
     
     /* Responsive adjustments */
     @media (max-width: 768px) {{
