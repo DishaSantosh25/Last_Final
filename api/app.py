@@ -9,12 +9,7 @@ import base64
 st.set_page_config(
     page_title="Wheat Leaf Identifier",
     layout="centered",
-    initial_sidebar_state="collapsed",
-    menu_items={
-        'Get Help': None,
-        'Report a bug': None,
-        'About': None
-    }
+    initial_sidebar_state="collapsed"
 )
 
 
@@ -39,11 +34,19 @@ def get_wheat_image():
 wheat_image = get_wheat_image()
 
 # Custom CSS with dynamic image
-st.markdown("""
+st.markdown(f"""
     <style>
+        /* Global Styles */
+        [data-testid="stAppViewContainer"] {{
+            background-color: #FFFFFF;
+        }}
+        
+        /* Hide default elements */
+        #MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        
+        /* Your existing CSS styles continue below */
         /* Hide all Streamlit default elements */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
         header {visibility: hidden;}
         .stDeployButton {display: none;}
         .reportview-container .main footer {visibility: hidden;}
@@ -61,11 +64,6 @@ st.markdown("""
         .main > div {
             padding-top: 1rem;
         }
-        
-        /* Global Styles */
-        [data-testid="stAppViewContainer"] {{
-            background-color: #FFFFFF;
-        }}
         
         /* Header Banner */
         .header-banner {{
