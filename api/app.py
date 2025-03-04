@@ -7,28 +7,9 @@ import base64
 
 # Page configuration
 st.set_page_config(
-    page_title="Wheat Leaf Identifier",
+    page_title="Wheat Leaf Idaentifier",
     layout="centered",
     initial_sidebar_state="collapsed"
-)
-
-hide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}  /* Hides the menu */
-footer {visibility: hidden;}     /* Hides the footer */
-header {visibility: hidden;}     /* Hides the header */
-</style>
-"""
-
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-st.markdown(
-    """
-    <script>
-    var footer = document.getElementsByClassName("stDeployButton")[0];
-    if (footer) { footer.style.display = "none"; }
-    </script>
-    """,
-    unsafe_allow_html=True
 )
 
 
