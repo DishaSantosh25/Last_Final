@@ -384,7 +384,7 @@ st.markdown(f"""
 # TensorFlow Model Functions
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("./wheat.h5")
+    return tf.keras.models.load_model("./wheat_disease_model.hf")
 
 def model_prediction(image_data):
     model = load_model()
