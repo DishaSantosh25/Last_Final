@@ -4,10 +4,11 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 from PIL import Image
 import base64
-import os
-import timm
+import numpy as np
 
-# Page configuration
+# -------------------------------
+# Page Configuration
+# -------------------------------
 st.set_page_config(
     page_title="Wheat Leaf Identifier",
     layout="centered",
@@ -176,37 +177,31 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # -------------------------------
-# Model Architecture (from your training code)
+# Model Architecture (Simple CNN)
 # -------------------------------
 class WheatDiseaseModel(nn.Module):
     def __init__(self, num_classes=5):
         super(WheatDiseaseModel, self).__init__()
-        # Use timm to create a ConvNeXt-based backbone with feature outputs
-        self.backbone = timm.create_model("convnext_base", pretrained=True, features_only=True)
-        backbone_out_channels = self.backbone.feature_info[-1]['num_chs']
-        # Segmentation head (not used in inference below but loaded)
-        self.segmentation_head = nn.Sequential(
-            nn.Conv2d(backbone_out_channels, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(256, 1, kernel_size=2, stride=2),
-            nn.Sigmoid()
+        self.conv = nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),  # expects keys "conv.0.weight", etc.
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2)
         )
-        # Classification head
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.classifier = nn.Sequential(
-            nn.Linear(backbone_out_channels, 256),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.7),
-            nn.Linear(256, num_classes)
+        # Assuming input images are resized to 128x128, after two pooling layers we have 32x32 spatial dims
+        self.fc = nn.Sequential(
+            nn.Linear(32 * 32 * 32, 128),
+            nn.ReLU(),
+            nn.Linear(128, num_classes)
         )
 
     def forward(self, x):
-        features = self.backbone(x)[-1]
-        seg_mask = self.segmentation_head(features)
-        pooled = self.avgpool(features).flatten(1)
-        class_logits = self.classifier(pooled)
-        return seg_mask, class_logits
+        x = self.conv(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
 
 # -------------------------------
 # Model Loading and Prediction Functions
@@ -215,7 +210,7 @@ class WheatDiseaseModel(nn.Module):
 def load_model():
     # Instantiate the model architecture
     model = WheatDiseaseModel(num_classes=5)
-    # Load the state dictionary from your .pth file (update path if needed)
+    # Load the state dictionary (ensure the path is correct)
     state_dict = torch.load("./wheat_disease_model.pth", map_location=torch.device("cpu"))
     model.load_state_dict(state_dict)
     model.eval()
@@ -225,18 +220,18 @@ def model_prediction(image_data):
     model = load_model()
     # Open the image and convert to RGB
     image = Image.open(image_data).convert("RGB")
-    # Use the same transforms as used in validation
+    # Use transforms similar to training (adjust size if needed)
     transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((128, 128)),
         transforms.ToTensor(),
+        # Use normalization parameters matching training if available
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
     ])
     input_tensor = transform(image).unsqueeze(0)
     with torch.no_grad():
-        # Forward pass returns (seg_mask, class_logits)
-        _, class_logits = model(input_tensor)
-        predicted_class = class_logits.argmax(dim=1).item()
+        output = model(input_tensor)
+        predicted_class = output.argmax(dim=1).item()
     return predicted_class
 
 # -------------------------------
