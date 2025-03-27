@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import io
 import base64
+import gdown
 
 # Page configuration
 st.set_page_config(
@@ -382,18 +383,32 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # TensorFlow Model Functions
+# Google Drive file ID
+FILE_ID = "1D87qQz4uA1dbDzKNDvsdSukHmvFKb2Ds"
+MODEL_PATH = "wheat_disease_model.h5"
+
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("./wheat_disease_model.h5")
+    # Download the model if it doesn't exist
+    if not os.path.exists(MODEL_PATH):
+        gdown.download(f"https://drive.google.com/uc?id={FILE_ID}", MODEL_PATH, quiet=False)
+    
+    # Load and return the model
+    return tf.keras.models.load_model(MODEL_PATH)
 
 def model_prediction(image_data):
     model = load_model()
+
+    # Open and preprocess image
     image = Image.open(image_data)
-    image = image.resize((128, 128))
+    image = image.resize((128, 128))  # Resize to match model input shape
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])
+    input_arr = input_arr / 255.0  # Normalize pixel values (0 to 1)
+    input_arr = np.expand_dims(input_arr, axis=0)  # Add batch dimension
+
+    # Get predictions
     predictions = model.predict(input_arr)
-    return np.argmax(predictions)
+    return np.argmax(predictions)  # Return predicted class index
 
 # Header Banner with Wheat Image
 st.markdown("""
