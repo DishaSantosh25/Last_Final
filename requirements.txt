@@ -7,3 +7,4 @@ tensorflow-serving-api==2.5.0
 matplotlib
 numpy
 gdown==4.5.2
+os
