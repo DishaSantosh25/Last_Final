@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 import io
 import base64
-import gdown
 import os 
 
 # Page configuration
@@ -383,48 +382,16 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
-# Google Drive file ID and local model path
-FILE_ID = "1D87qQz4uA1dbDzKNDvsdSukHmvFKb2Ds"
-MODEL_PATH = "wheat_disease_model.h5"
-
 @st.cache_resource
 def load_model():
-    # Check if the model file exists locally
-    if not os.path.exists(MODEL_PATH):
-        st.write("Model file not found locally. Starting download...")
-        try:
-            # Attempt to download the model file
-            gdown.download(f"https://drive.google.com/uc?id={FILE_ID}", MODEL_PATH, quiet=False)
-        except Exception as download_error:
-            st.error("Failed to download the model.")
-            raise download_error
-
-    # Double-check if the file now exists
-    if not os.path.exists(MODEL_PATH):
-        error_message = "Model file still not found after download attempt."
-        st.error(error_message)
-        raise FileNotFoundError(error_message)
-
-    st.write("Loading model from file...")
-    try:
-        model = tf.keras.models.load_model(MODEL_PATH)
-    except Exception as load_error:
-        st.error("Failed to load the model.")
-        raise load_error
-
-    st.write("Model loaded successfully!")
-    return model
+    return tf.keras.models.load_model("./wheat_disease_model.h5")
 
 def model_prediction(image_data):
     model = load_model()
-
-    # Open and preprocess the image
     image = Image.open(image_data)
-    image = image.resize((128, 128))  # Resize to match your model input
+    image = image.resize((128, 128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = input_arr / 255.0  # Normalize pixel values if needed
-    input_arr = np.expand_dims(input_arr, axis=0)  # Add a batch dimension
-
+    input_arr = np.array([input_arr])
     predictions = model.predict(input_arr)
     return np.argmax(predictions)
 
