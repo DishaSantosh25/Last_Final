@@ -386,40 +386,36 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 import torch
-from PIL import Image
 import torchvision.transforms as transforms
 
-# Import your model definition
-from wheat import WheatDiseaseModel  # adjust import as needed
-
+# Replace the TensorFlow model loader with a PyTorch model loader
 @st.cache_resource
 def load_model():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = WheatDiseaseModel(num_classes=5)
-    model.load_state_dict(torch.load("wheat_disease_model.pth", map_location=device))
-    model.to(device)
-    model.eval()
+    # Load the PyTorch model from the .pth file
+    model = torch.load("./wheat_disease_model.pth", map_location=torch.device('cpu'))
+    model.eval()  # Set model to evaluation mode
     return model
 
 def model_prediction(image_data):
     model = load_model()
-    image = Image.open(image_data).convert("RGB")
-    # Make sure to use the same transformations as in training
+    image = Image.open(image_data)
+    # Ensure the image is in RGB mode
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+    # Define the necessary transformations
     transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((128, 128)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
+        # Normalize using ImageNet mean and std, adjust if your model expects different values
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
-    input_tensor = transform(image).unsqueeze(0)  # add batch dimension
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    input_tensor = input_tensor.to(device)
-    
+    # Apply the transformation and add a batch dimension
+    input_tensor = transform(image).unsqueeze(0)
+    # Run the model and get the prediction
     with torch.no_grad():
-        _, class_logits = model(input_tensor)
-    prediction = torch.argmax(class_logits, dim=1).item()
-    return prediction
-
+        outputs = model(input_tensor)
+        _, preds = torch.max(outputs, 1)
+    return preds.item()
 
 # Header Banner with Wheat Image
 st.markdown("""
