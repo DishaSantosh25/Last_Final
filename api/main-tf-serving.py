@@ -26,7 +26,7 @@ class WheatModel(nn.Module):
 def load_model():
     model = WheatModel()
     # Load the state dict; adjust the path if needed.
-    model.load_state_dict(torch.load("./wheat.pth", map_location=torch.device("cpu")))
+    model.load_state_dict(torch.load("./wheat_disease_model.pth", map_location=torch.device("cpu")))
     model.eval()
     return model
 
