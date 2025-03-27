@@ -5,6 +5,9 @@ from PIL import Image
 import io
 import base64
 import os 
+import torch
+from PIL import Image
+import torchvision.transforms as transforms
 
 # Page configuration
 st.set_page_config(
@@ -382,18 +385,41 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
+import torch
+from PIL import Image
+import torchvision.transforms as transforms
+
+# Import your model definition
+from wheat import WheatDiseaseModel  # adjust import as needed
+
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("./wheat_disease_model.h5")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = WheatDiseaseModel(num_classes=5)
+    model.load_state_dict(torch.load("wheat_disease_model.pth", map_location=device))
+    model.to(device)
+    model.eval()
+    return model
 
 def model_prediction(image_data):
     model = load_model()
-    image = Image.open(image_data)
-    image = image.resize((128, 128))
-    input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])
-    predictions = model.predict(input_arr)
-    return np.argmax(predictions)
+    image = Image.open(image_data).convert("RGB")
+    # Make sure to use the same transformations as in training
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])
+    ])
+    input_tensor = transform(image).unsqueeze(0)  # add batch dimension
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    input_tensor = input_tensor.to(device)
+    
+    with torch.no_grad():
+        _, class_logits = model(input_tensor)
+    prediction = torch.argmax(class_logits, dim=1).item()
+    return prediction
+
 
 # Header Banner with Wheat Image
 st.markdown("""
