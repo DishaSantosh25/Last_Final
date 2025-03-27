@@ -472,7 +472,7 @@ with col2:
             if st.button("Analyze Image", key="analyze_camera"):
                 with st.spinner("📊 Analyzing your wheat leaf..."):
                     result_index = model_prediction(camera_input)
-                    class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "septoria"]
+                    class_names = ["Brown_rust", "Healthy", "Loose_Smut", "septoria", "Yellow_rust"]
                     
                     st.markdown('<div class="result-container">', unsafe_allow_html=True)
                     if class_names[result_index] == "Healthy":
