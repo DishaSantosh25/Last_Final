@@ -6,4 +6,4 @@ pillow
 tensorflow-serving-api==2.5.0
 matplotlib
 numpy
-gdown
+gdown==4.5.2
