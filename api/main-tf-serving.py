@@ -1,5 +1,6 @@
 import streamlit as st
 import torch
+import torch.nn as nn
 import numpy as np
 from PIL import Image
 import io
@@ -382,12 +383,42 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
+# --- Define your model architecture ---
+# Replace this sample architecture with your actual model architecture
+class WheatDiseaseModel(nn.Module):
+    def __init__(self):
+        super(WheatDiseaseModel, self).__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2,2),
+            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2,2)
+        )
+        # Assuming input images are resized to 128x128
+        # After two pooling layers, the spatial dimensions are 32x32
+        self.fc = nn.Sequential(
+            nn.Linear(32 * 32 * 32, 128),
+            nn.ReLU(),
+            nn.Linear(128, 5)  # Adjust the output size to the number of classes
+        )
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
 # --- PyTorch Model Loading and Prediction ---
 
 @st.cache_resource
 def load_model():
-    # Load the PyTorch model from the .pth file and set it to evaluation mode
-    model = torch.load("./wheat_disease_model.pth", map_location=torch.device("cpu"))
+    # Instantiate the model architecture
+    model = WheatDiseaseModel()
+    # Load the state dictionary (adjust the path if needed)
+    state_dict = torch.load("./wheat_disease_model.pth", map_location=torch.device("cpu"))
+    model.load_state_dict(state_dict)
     model.eval()
     return model
 
