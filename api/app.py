@@ -3,7 +3,7 @@ import torch
 import numpy as np
 from PIL import Image
 import torchvision.transforms as transforms
-from timm import create_model  # Add this import for ConvNeXt
+import torchvision.models as models
 import base64
 
 
@@ -383,8 +383,10 @@ st.markdown(f"""
 
 @st.cache_resource
 def load_model():
-    # Create ConvNeXt model
-    model = create_model('convnext_tiny', pretrained=False, num_classes=5)
+    # Create ConvNeXt model using torchvision
+    model = models.convnext_tiny(pretrained=False)
+    # Modify the classifier for 5 classes
+    model.classifier[2] = torch.nn.Linear(768, 5)  # ConvNeXt tiny has 768 features
     # Load trained weights
     model.load_state_dict(torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu')))
     model.eval()
@@ -393,7 +395,8 @@ def load_model():
 def preprocess_image(img):
     # ConvNeXt preprocessing pipeline
     transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], 
                            std=[0.229, 0.224, 0.225])
@@ -428,24 +431,6 @@ def model_prediction(image_data):
         predicted_class = torch.argmax(probabilities, dim=1).item()
     
     return predicted_class
-
-# Load PyTorch model
-@st.cache_resource
-def load_model():
-    model = torch.load("./wheat_disease_model.pth", map_location=torch.device('cpu'))
-    model.eval()
-    return model
-
-def model_prediction(image_data):
-    model = load_model()
-    transform = transforms.Compose([
-        transforms.Resize((128, 128)),
-        transforms.ToTensor()
-    ])
-    image = Image.open(image_data).convert("RGB")
-    image = transform(image).unsqueeze(0)  # Add batch dimension
-    output = model(image)
-    return torch.argmax(output, dim=1).item()
 
 # UI Layout
 st.title("🌾 Wheat Leaf Identifier")
