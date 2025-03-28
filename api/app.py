@@ -3,7 +3,7 @@ import torch
 import numpy as np
 from PIL import Image
 import torchvision.transforms as transforms
-import torchvision.models as models
+import torch.nn as nn
 import base64
 
 
@@ -381,22 +381,54 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
+class ConvNeXtCustom(nn.Module):
+    def __init__(self, num_classes=5):
+        super(ConvNeXtCustom, self).__init__()
+        # Base layers
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=7, stride=4, padding=3),
+            nn.BatchNorm2d(64),
+            nn.GELU(),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+            
+            # Additional convolutional layers
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
+            nn.GELU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.BatchNorm2d(256),
+            nn.GELU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
+        
+        # Classifier
+        self.classifier = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Linear(256, num_classes)
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
+
+# Replace model loading and preprocessing code
 @st.cache_resource
 def load_model():
-    # Create ConvNeXt model using torchvision
-    model = models.convnext_tiny(pretrained=False)
-    # Modify the classifier for 5 classes
-    model.classifier[2] = torch.nn.Linear(768, 5)  # ConvNeXt tiny has 768 features
+    # Create model instance
+    model = ConvNeXtCustom(num_classes=5)
     # Load trained weights
     model.load_state_dict(torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu')))
     model.eval()
     return model
 
 def preprocess_image(img):
-    # ConvNeXt preprocessing pipeline
+    # Standard preprocessing pipeline
     transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.Resize((224, 224)),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], 
                            std=[0.229, 0.224, 0.225])
