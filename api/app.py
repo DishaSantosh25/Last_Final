@@ -1,18 +1,18 @@
 import streamlit as st
-import torch
+import tensorflow as tf
 import numpy as np
 from PIL import Image
-import torchvision.transforms as transforms
-import torch.nn as nn
+import io
 import base64
-
 
 # Page configuration
 st.set_page_config(
-    page_title="Wheat Leaf Identifier",
+    page_title="Wheat Leaf Idaentifier",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
+
+
 # Load and encode the wheat image
 def get_wheat_image():
     try:
@@ -381,95 +381,36 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
-class ConvNeXtCustom(nn.Module):
-    def __init__(self, num_classes=5):
-        super(ConvNeXtCustom, self).__init__()
-        # Base layers
-        self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=7, stride=4, padding=3),
-            nn.BatchNorm2d(64),
-            nn.GELU(),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
-            
-            # Additional convolutional layers
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.GELU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.GELU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-        )
-        
-        # Classifier
-        self.classifier = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1, 1)),
-            nn.Flatten(),
-            nn.Linear(256, num_classes)
-        )
-
-    def forward(self, x):
-        x = self.features(x)
-        x = self.classifier(x)
-        return x
-
-# Replace model loading and preprocessing code
+# TensorFlow Model Functions
 @st.cache_resource
 def load_model():
-    # Create model instance
-    model = ConvNeXtCustom(num_classes=5)
-    # Load trained weights
-    model.load_state_dict(torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu')))
-    model.eval()
-    return model
-
-def preprocess_image(img):
-    # Standard preprocessing pipeline
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                           std=[0.229, 0.224, 0.225])
-    ])
-    
-    # Convert to RGB if needed
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
-    
-    # Apply transformations
-    img_tensor = transform(img)
-    # Add batch dimension
-    img_tensor = img_tensor.unsqueeze(0)
-    return img_tensor
+    return tf.keras.models.load_model("./wheat.h5")
 
 def model_prediction(image_data):
     model = load_model()
-    
-    # Handle different input types
-    if isinstance(image_data, str):  # For camera input
-        image = Image.open(image_data)
-    else:  # For uploaded files
-        image = Image.open(image_data)
-    
-    # Preprocess image
-    input_tensor = preprocess_image(image)
-    
-    # Inference
-    with torch.no_grad():
-        outputs = model(input_tensor)
-        probabilities = torch.nn.functional.softmax(outputs, dim=1)
-        predicted_class = torch.argmax(probabilities, dim=1).item()
-    
-    return predicted_class
+    image = Image.open(image_data)
+    image = image.resize((128, 128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])
+    predictions = model.predict(input_arr)
+    return np.argmax(predictions)
 
-# UI Layout
-st.title("🌾 Wheat Leaf Identifier")
-st.write("Upload an image of a wheat leaf to detect any potential disease.")
-
-
-uploaded_file = st.file_uploader("Choose a wheat leaf image...", type=['png', 'jpg', 'jpeg'])
+# Header Banner with Wheat Image
+st.markdown("""
+    <div class="header-banner">
+        <div class="banner-content">
+            <div class="title-container">
+                <div class="title-text">
+                    <h1>Wheat Leaf</h1>
+                    <h2>Identifier</h2>
+                </div>
+            </div>
+        </div>
+        <div class="wheat-image-wrapper">
+            <div class="wheat-image" role="img" aria-label="Decorative wheat image"></div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 # Center Section
 st.markdown("""
@@ -573,26 +514,4 @@ with col2:
                         )
                     
                     st.markdown('</div>', unsafe_allow_html=True) 
-                    st.markdown('</div>', unsafe_allow_html=True) 
-
-if uploaded_file:
-    st.image(uploaded_file, caption='Uploaded Image', use_column_width=True)
-    if st.button("Analyze Image"):
-        with st.spinner("Analyzing the image..."):
-            result_index = model_prediction(uploaded_file)
-            class_names = ["Brown_rust", "Healthy", "Loose_Smut", "Yellow_rust", "Septoria"]
-            disease_name = class_names[result_index]
-            
-            st.subheader("Prediction Result")
-            if disease_name == "Healthy":
-                st.success("✅ Your wheat plant is healthy!")
-            else:
-                st.error(f"⚠️ Disease Detected: {disease_name}")
-                recommendations = {
-                    "Brown_rust": "Apply fungicide treatment immediately and monitor other plants.",
-                    "Loose_Smut": "Remove infected plants and use disease-resistant varieties.",
-                    "Yellow_rust": "Apply fungicides and improve air circulation.",
-                    "Septoria": "Use foliar fungicides and maintain proper spacing between plants."
-                }
-                st.info(recommendations.get(disease_name, "Seek expert guidance for treatment."))
-
+                    st.markdown('</div>', unsafe_allow_html=True)
