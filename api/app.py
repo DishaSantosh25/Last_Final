@@ -2,7 +2,9 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 import torch
+import torch.nn as nn
 import torchvision.transforms as transforms
+import timm
 import base64
 
 # Page configuration
@@ -381,6 +383,27 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
+# Define the model architecture
+class WheatDiseaseModel(nn.Module):
+    def __init__(self, num_classes=5):
+        super(WheatDiseaseModel, self).__init__()
+        self.backbone = timm.create_model("convnext_base", pretrained=False, features_only=True)
+        backbone_out_channels = self.backbone.feature_info[-1]['num_chs']
+        
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.classifier = nn.Sequential(
+            nn.Linear(backbone_out_channels, 256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.7),
+            nn.Linear(256, num_classes)
+        )
+
+    def forward(self, x):
+        features = self.backbone(x)[-1]
+        pooled = self.avgpool(features).flatten(1)
+        class_logits = self.classifier(pooled)
+        return class_logits
+
 # Update preprocessing for ConvNeXt
 def preprocess_image(img):
     transform = transforms.Compose([
@@ -401,15 +424,15 @@ def preprocess_image(img):
     img_tensor = img_tensor.unsqueeze(0)
     return img_tensor
 
-# Update model loading for ConvNeXt
+# Update model loading
 @st.cache_resource
 def load_model():
-    # Load the PyTorch model
-    model = torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu'))
+    model = WheatDiseaseModel(num_classes=5)
+    model.load_state_dict(torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu')))
     model.eval()
     return model
 
-# Update prediction function for ConvNeXt
+# Update prediction function
 def model_prediction(image_data):
     model = load_model()
     
