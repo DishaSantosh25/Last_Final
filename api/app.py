@@ -8,6 +8,7 @@ import os
 import torch
 from PIL import Image
 import torchvision.transforms as transforms
+from timm import create_model  # Add this import for ConvNeXt
 
 # Page configuration
 st.set_page_config(
@@ -385,41 +386,53 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
-import torch
-from PIL import Image
-import torchvision.transforms as transforms
-
-# Import your model definition
-from wheat import WheatDiseaseModel  # adjust import as needed
-
 @st.cache_resource
 def load_model():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = WheatDiseaseModel(num_classes=5)
-    model.load_state_dict(torch.load("wheat_disease_model.pth", map_location=device))
-    model.to(device)
+    # Create ConvNeXt model
+    model = create_model('convnext_tiny', pretrained=False, num_classes=5)
+    # Load trained weights
+    model.load_state_dict(torch.load('./wheat_disease_model.pth', map_location=torch.device('cpu')))
     model.eval()
     return model
 
-def model_prediction(image_data):
-    model = load_model()
-    image = Image.open(image_data).convert("RGB")
-    # Make sure to use the same transformations as in training
+def preprocess_image(img):
+    # ConvNeXt preprocessing pipeline
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                           std=[0.229, 0.224, 0.225])
     ])
-    input_tensor = transform(image).unsqueeze(0)  # add batch dimension
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    input_tensor = input_tensor.to(device)
     
-    with torch.no_grad():
-        _, class_logits = model(input_tensor)
-    prediction = torch.argmax(class_logits, dim=1).item()
-    return prediction
+    # Convert to RGB if needed
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+    
+    # Apply transformations
+    img_tensor = transform(img)
+    # Add batch dimension
+    img_tensor = img_tensor.unsqueeze(0)
+    return img_tensor
 
+def model_prediction(image_data):
+    model = load_model()
+    
+    # Handle different input types
+    if isinstance(image_data, str):  # For camera input
+        image = Image.open(image_data)
+    else:  # For uploaded files
+        image = Image.open(image_data)
+    
+    # Preprocess image
+    input_tensor = preprocess_image(image)
+    
+    # Inference
+    with torch.no_grad():
+        outputs = model(input_tensor)
+        probabilities = torch.nn.functional.softmax(outputs, dim=1)
+        predicted_class = torch.argmax(probabilities, dim=1).item()
+    
+    return predicted_class
 
 # Header Banner with Wheat Image
 st.markdown("""
